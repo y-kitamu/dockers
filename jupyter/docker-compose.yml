@@ -1,0 +1,13 @@
+version: '3'
+
+# volume の同期がうまくいってない
+services:
+  jupyter:
+    build: .
+    image: jupyter/scipy-notebook
+    ports:
+      - "8000:8888"
+    volumes:
+      - "/home/kitamura/Dropbox:/work/"
+    restart: always
+    command: jupyter notebook --NotebookApp.password='sha1:667ccb914469:b2303e608226c018749e4de032ec05f5e9a9776c'
