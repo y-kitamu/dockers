@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+  engine:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    restart: always
