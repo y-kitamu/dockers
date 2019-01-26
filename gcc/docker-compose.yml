@@ -5,4 +5,11 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
+      args:
+        user: "kitamura"
+        passwd: "passwd"
     restart: always
+    ports:
+      - "33333:22"
+    volumes:
+      - ~/.ssh:/home/kitamura/.ssh
