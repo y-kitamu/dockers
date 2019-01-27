@@ -8,8 +8,16 @@ services:
       args:
         user: "kitamura"
         passwd: "passwd"
-    restart: always
+        display: ${DISPLAY} # not worked when setting in environment: 
     ports:
-      - "33333:22"
+      - "${ENGINE_HOST_PORT}:${ENGINE_CONTAINER_PORT}"
     volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix  # enable X socket communication
       - ~/.ssh:/home/kitamura/.ssh
+      - ~/work:/home/kitamura/work
+      - ~/.emacs.d:/home/kitamura/.emacs.d
+      # - ~/.bashrc:/home/kitamura/.bashrc
+      # - ~/.bash_aliases:/home/kitamura/.bash_aliases
+      - ~/.screenrc:/home/kitamura/.screen_rc
+    restart: always
+    command: /usr/sbin/sshd -D

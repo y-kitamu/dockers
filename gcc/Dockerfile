@@ -9,9 +9,6 @@ RUN apt-get install cmake ninja-build -y
 # ssh (https://docs.docker.com/engine/examples/running_ssh_service/)
 RUN apt-get update && apt-get install openssh-server -y
 RUN mkdir /var/run/sshd
-# RUN echo 'root:password' | chpasswd  # change or remove?
-# RUN sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/ssh_config
-
 RUN sed -ri 's/^#?PermitRootLogin\s+.*/PermitRootLogin yes/' /etc/ssh/sshd_config
 RUN sed -ri 's/UsePAM yes/#UsePAM yes/g' /etc/ssh/sshd_config
 
@@ -23,5 +20,14 @@ RUN useradd -ms /bin/bash ${user}
 RUN usermod -aG sudo ${user}
 RUN echo "${user}:${passwd}" | chpasswd
 
-EXPOSE 22
-CMD /usr/sbin/sshd -D
+# utility
+RUN apt-get install software-properties-common locate git -y
+
+# emacs
+RUN add-apt-repository ppa:kelleyk/emacs && apt-get update && apt-get install emacs26 -y
+
+# display
+RUN echo test
+ARG display
+RUN echo "export DISPLAY=${display}" >> /etc/profile
+RUN echo ${display}
