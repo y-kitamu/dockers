@@ -12,6 +12,18 @@ RUN mkdir /var/run/sshd
 RUN sed -ri 's/^#?PermitRootLogin\s+.*/PermitRootLogin yes/' /etc/ssh/sshd_config
 RUN sed -ri 's/UsePAM yes/#UsePAM yes/g' /etc/ssh/sshd_config
 
+# emacs
+RUN apt-get install software-properties-common -y
+RUN add-apt-repository ppa:kelleyk/emacs && apt-get update && apt-get install emacs26 -y
+RUN mkdir /home/${user}/backups
+
+# utility
+RUN apt-get install sudo locate git screen ngetty -y
+
+# display
+ARG display
+RUN echo "export DISPLAY=${display}" >> /etc/profile
+
 # add user
 ARG user
 ARG passwd
@@ -19,15 +31,3 @@ ARG passwd
 RUN useradd -ms /bin/bash ${user}
 RUN usermod -aG sudo ${user}
 RUN echo "${user}:${passwd}" | chpasswd
-
-# utility
-RUN apt-get install software-properties-common locate git -y
-
-# emacs
-RUN add-apt-repository ppa:kelleyk/emacs && apt-get update && apt-get install emacs26 -y
-
-# display
-RUN echo test
-ARG display
-RUN echo "export DISPLAY=${display}" >> /etc/profile
-RUN echo ${display}

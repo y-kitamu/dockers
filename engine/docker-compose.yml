@@ -18,6 +18,6 @@ services:
       - ~/.emacs.d:/home/kitamura/.emacs.d
       # - ~/.bashrc:/home/kitamura/.bashrc
       # - ~/.bash_aliases:/home/kitamura/.bash_aliases
-      - ~/.screenrc:/home/kitamura/.screen_rc
+      - ~/.screenrc:/home/kitamura/.screenrc
     restart: always
     command: /usr/sbin/sshd -D
