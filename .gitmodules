@@ -1,3 +1,6 @@
 [submodule "growi"]
 	path = growi
 	url = https://github.com/y-kitamu/growi-docker-compose.git
+[submodule "samba"]
+	path = samba
+	url = https://github.com/babim/docker-sambaad.git
