@@ -11,5 +11,5 @@ docker 一覧
 ## TODO
 
 - jupyter 環境構築.。extension の導入、keybind など
-- c++ 開発環境. Dockerfileで必要なものインストール http://choreonoid.org/ja/install/build-ubuntu.html らへんを参考に。 cmake、 gcc などソースからビルドして最新版にする
+- c++ 開発環境. Dockerfileで必要なものインストール。cmake、 gcc などソースからビルドして最新版にする
 - スクリプト書いて、全部一気に起動できるようにする？(git bucket とか growi, jupyter はいらない?)
