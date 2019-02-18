@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM nvidia/opengl:1.0-glvnd-devel-ubuntu16.04
 
 MAINTAINER y-kitamu ymyk6602@gmail.com
 
@@ -14,7 +14,7 @@ RUN sed -ri 's/UsePAM yes/#UsePAM yes/g' /etc/ssh/sshd_config
 
 # emacs
 RUN apt-get install software-properties-common -y
-RUN add-apt-repository ppa:kelleyk/emacs && apt-get update && apt-get install emacs26 -y
+# RUN add-apt-repository ppa:kelleyk/emacs && apt-get update && apt-get install emacs26 -y
 RUN mkdir /home/${user}/backups
 
 # utility
@@ -33,8 +33,16 @@ RUN usermod -aG sudo ${user}
 RUN echo "${user}:${passwd}" | chpasswd
 
 # opengl
-RUN apt-get install -y mesa-utils libx11-dev libxi-dev libgl1-mesa-dev libglu1-mesa-dev libxrandr-dev libxext-dev &&
-    libxinerama-dev libxcursor-dev
+# うまく行かない??
+RUN apt-get install -y mesa-utils libx11-dev libxi-dev libgl1-mesa-dev libglu1-mesa-dev libxrandr-dev libxext-dev libxinerama-dev libxcursor-dev libvulkan-dev
+
+# nvidia-container-runtime
+ENV NVIDIA_VISIBLE_DEVICES ${NVIDIA_VISIBLE_DEVICES:-all}
+ENV NVIDIA_DRIVER_CAPABILITIES ${NVIDIA_DRIVER_CAPABILITIES:+$NVIDIA_DRIVER_CAPABILITIES,}graphics
+ENV NVIDIA_DRIVER_CAPABILITIES ${NVIDIA_DRIVER_CAPABILITIES},display
+
+# install GLX-Gears
+RUN apt update && apt install -y --no-install-recommends mesa-utils x11-apps && rm -rf /var/lib/apt/lists/*
 
 # display
 ARG display
