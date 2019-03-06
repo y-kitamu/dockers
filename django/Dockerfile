@@ -1,0 +1,9 @@
+FROM python:3
+MAINTAINER y-kitamu
+
+ENV PYTHONBUFFERED 1
+RUN mkdir /code
+WORKDIR /code
+COPY requrements.txt /code/
+RUN pip install -r requirements.txt
+COPY . /code/
