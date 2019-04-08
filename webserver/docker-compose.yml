@@ -5,5 +5,5 @@ services:
     ports:
       - "8888:80"
     volumes:
-      - ./html:/var/www/html
+      - /home/kitamura/Docker/webserver/html:/var/www/html
     restart: always
