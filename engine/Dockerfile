@@ -3,8 +3,8 @@ FROM ubuntu:18.04
 MAINTAINER y-kitamu ymyk6602@gmail.com
 
 # c++
-RUN apt-get update && apt-get install build-essential gcc libboost-dev -y
-RUN apt-get install cmake ninja-build -y
+RUN apt-get update && apt-get install build-essential -y
+RUN apt-get update && apt-get install gcc libboost-dev cmake ninja-build -y
 
 # ssh (https://docs.docker.com/engine/examples/running_ssh_service/)
 RUN apt-get update && apt-get install openssh-server -y
