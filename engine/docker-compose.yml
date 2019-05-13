@@ -19,7 +19,7 @@ services:
       - ~/.ssh:/home/kitamura/.ssh
       - ~/work:/home/kitamura/work
       - ~/.emacs.d:/home/kitamura/.emacs.d
-      # - ~/.bashrc:/home/kitamura/.bashrc
+      - ~/.bashrc:/home/kitamura/.bashrc
       # - ~/.bash_aliases:/home/kitamura/.bash_aliases
       - ~/.screenrc:/home/kitamura/.screenrc
       - /tmp/.X11-unix:/tmp/.x11-unix
