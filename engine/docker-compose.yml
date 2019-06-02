@@ -13,7 +13,6 @@ services:
       - "${ENGINE_HOST_PORT}:${ENGINE_CONTAINER_PORT}"
     environment:
       - PATH=/usr/local/nvidia/bin:${PATH}
-      - LD_LIBRARY_PATH=/usr/local/nvidia/lib:/usr/local/nvidia/lib64:${LD_LIBRARY_PATH}
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix  # enable X socket communication
       - ~/.ssh:/home/${USER}/.ssh
@@ -27,4 +26,3 @@ services:
       - /tmp/.X11-unix:/tmp/.x11-unix
     restart: always
     command: /usr/sbin/sshd -D
-    net: "host"

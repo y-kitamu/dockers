@@ -35,9 +35,10 @@ RUN git clone https://github.com/Kitware/CMake.git cmake &&\
     make && make install
 
 # python set up 
-RUN rm /usr/bin/python && ln -s /usr/bin/python3.6 /usr/bin/python &&\
-    apt-get install curl &&\
-    curl -kL https://bootstrap.pypa.io/get-pip.py | python &&\
+RUN apt-get install python3-distutils -y &&\
+    rm /usr/bin/python && ln -s /usr/bin/python3.6 /usr/bin/python &&\
+    apt-get update && apt-get install curl -y &&\
+    curl -kL https://bootstrap.pypa.io/get-pip.py | python 
 
 # build opencv
 RUN apt-get update &&\
@@ -48,7 +49,7 @@ RUN apt-get update &&\
     make -j4 && make install
 
 # ceres
-RUN apt-get install sudo apt-get install \
+RUN apt-get install \
     libgoogle-glog-dev libatlas-base-dev libeigen3-dev libsuitesparse-dev -y &&\
     git clone https://github.com/ceres-solver/ceres-solver.git &&\
     mkdir ceres-bin && cd ceres-bin &&\
