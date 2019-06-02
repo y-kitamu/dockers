@@ -35,9 +35,9 @@ RUN git clone https://github.com/Kitware/CMake.git cmake &&\
     make && make install
 
 # python set up 
-RUN rm /usr/bin/python && ln -s /usr/bin/python3.6 /usr/bin/python &&\ # set default python version to 3
-    apt install curl &&\
-    curl -kL https://bootstrap.pypa.io/get-pip.py | python &&\   # install pip
+RUN rm /usr/bin/python && ln -s /usr/bin/python3.6 /usr/bin/python &&\
+    apt-get install curl &&\
+    curl -kL https://bootstrap.pypa.io/get-pip.py | python &&\
 
 # build opencv
 RUN apt-get update &&\
