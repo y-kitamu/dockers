@@ -4,3 +4,24 @@
 [submodule "samba"]
 	path = samba
 	url = https://github.com/babim/docker-sambaad.git
+[submodule "engine/lib/boost"]
+	path = engine/lib/boost
+	url = https://github.com/boostorg/boost.git
+[submodule "engine/lib/ceres-solver"]
+	path = engine/lib/ceres-solver
+	url = https://github.com/ceres-solver/ceres-solver.git
+[submodule "engine/lib/cmake"]
+	path = engine/lib/cmake
+	url = https://github.com/Kitware/CMake.git
+[submodule "engine/lib/eigen"]
+	path = engine/lib/eigen
+	url = https://github.com/eigenteam/eigen-git-mirror.git
+[submodule "engine/lib/llvm"]
+	path = engine/lib/llvm
+	url = https://github.com/llvm/llvm-project.git
+[submodule "engine/lib/opencv"]
+	path = engine/lib/opencv
+	url = https://github.com/opencv/opencv.git
+[submodule "engine/lib/opencv_contrib"]
+	path = engine/lib/opencv_contrib
+	url = https://github.com/opencv/opencv-contrib.git
