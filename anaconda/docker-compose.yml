@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  anaconda:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      args:
+        user: "kitamura"
+        passwd: "passwd"
+        display: ${DISPLAY}
+    ports:
+      - "4000:22"
+    # network_mode: "host"
+    volumes:
+      - ./data:/home/kitamura/data/
+      - ./.bashrc:/home/kitamura/.bashrc
+      - /tmp/.X11-unix:/tmp/.X11-unix  # enable X socket communication

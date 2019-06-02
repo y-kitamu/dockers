@@ -27,3 +27,4 @@ services:
       - /tmp/.X11-unix:/tmp/.x11-unix
     restart: always
     command: /usr/sbin/sshd -D
+    net: "host"

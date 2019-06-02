@@ -58,4 +58,3 @@ WORKDIR /
 
 # opengl 
 RUN apt-get install libglu1-mesa-dev mesa-common-dev mesa-utils freeglut3-dev libglfw3-dev libglfw3 -y
-
