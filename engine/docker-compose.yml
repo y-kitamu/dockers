@@ -6,23 +6,23 @@ services:
       context: .
       dockerfile: ./Dockerfile
       args:
-        user: "kitamura"
-        passwd: "passwd"
-        display: ${DISPLAY} # not worked when setting in environment: 
+        user: ${USER}
+        passwd: ${PASSWORD}
+        display: ${DISPLAY}  # setting in 'environment', not work 
     ports:
       - "${ENGINE_HOST_PORT}:${ENGINE_CONTAINER_PORT}"
     environment:
       - PATH=/usr/local/nvidia/bin:${PATH}
-      - LD_LIBRARY_PATH=/usr/local/nvidia/lib:/usr/local/nvidia/lib64:${LD_LIBRARY_PATH}
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix  # enable X socket communication
-      - ~/.ssh:/home/kitamura/.ssh
-      - ~/work:/home/kitamura/work
-      - ~/.emacs.d:/home/kitamura/.emacs.d
-      - ~/.bashrc:/home/kitamura/.bashrc
-      # - ~/.bash_aliases:/home/kitamura/.bash_aliases
-      - ~/.screenrc:/home/kitamura/.screenrc
+      - ~/.ssh:/home/${USER}/.ssh
+      - ~/work:/home/${USER}/work
+      - ~/.emacs.d:/home/${USER}/.emacs.d
+      - ~/.bashrc:/home/${USER}/.bashrc
+      # - ~/.bash_aliases:/home/${USER}/.bash_aliases
+      - ~/.screenrc:/home/${USER}/.screenrc
+      - ./lib:/home/${USER}/lib
+      - ./local:/home/${USER}/local
       - /tmp/.X11-unix:/tmp/.x11-unix
     restart: always
     command: /usr/sbin/sshd -D
-    net: "host"
