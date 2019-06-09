@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM ubuntu:18.10
 
 MAINTAINER y-kitamu ymyk6602@gmail.com
 
@@ -24,7 +24,7 @@ RUN sed -ri 's/UsePAM yes/#UsePAM yes/g' /etc/ssh/sshd_config
 # gcc, g++, build-essential, git
 RUN apt-get update &&\
     apt-get upgrade -y &&\
-    apt-get install sudo gcc g++ build-essential git clang ninja-build -y
+    apt-get install sudo gcc g++ build-essential git ninja-build -y
 
 WORKDIR /opt
 
@@ -59,3 +59,18 @@ WORKDIR /
 
 # opengl 
 RUN apt-get install libglu1-mesa-dev mesa-common-dev mesa-utils freeglut3-dev libglfw3-dev libglfw3 -y
+
+# llvm
+RUN echo "# llvm repository" >> /etc/apt/sources.list &&\
+    echo "deb http://apt.llvm.org/cosmic/ llvm-toolchain-cosmic-8 main" >> /etc/apt/sources.list &&\
+    echo "deb-src http://apt.llvm.org/cosmic/ llvm-toolchain-cosmic-8 main" >> /etc/apt/sources.list &&\
+    wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key|sudo apt-key add - &&\
+    apt-get update &&\
+    apt-get install libllvm-8-ocaml-dev libllvm8 llvm-8 llvm-8-dev llvm-8-doc llvm-8-examples llvm-8-runtime -y &&\
+    apt-get install clang-8 clang-tools-8 clang-8-doc libclang-common-8-dev libclang-8-dev libclang1-8 clang-format-8 python-clang-8 &&\
+    rm /usr/bin/clang && /usr/lib/llvm-8/bin/clang
+WORKDIR /opt
+RUN git clone https://github.com/halide/Halide.git Halide &&\
+    cd Halide &&\
+    export LLVM_CONFIG=/usr/bin/llvm-config-8 &&\
+    make && make distrib
