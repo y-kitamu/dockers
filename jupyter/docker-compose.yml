@@ -5,6 +5,8 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
+      args:
+        passwd: ${PASSWORD}
     ports:
       - "8000:8888"
     volumes:
