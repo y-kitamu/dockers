@@ -25,3 +25,6 @@
 [submodule "engine/lib/opencv_contrib"]
 	path = engine/lib/opencv_contrib
 	url = https://github.com/opencv/opencv-contrib.git
+[submodule "jupyter/docker-stacks"]
+	path = jupyter/docker-stacks
+	url = https://github.com/y-kitamu/docker-stacks.git
