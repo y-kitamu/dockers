@@ -27,4 +27,4 @@
 	url = https://github.com/opencv/opencv-contrib.git
 [submodule "django"]
 	path = django
-	url = https://github.com/y-kitamu/stock_portfolio.git
+	url = git@github.com:y-kitamu/stock_portfolio.git
