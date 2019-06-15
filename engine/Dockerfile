@@ -36,7 +36,7 @@ RUN git clone https://github.com/Kitware/CMake.git cmake &&\
 
 # python set up 
 RUN apt-get install python3-distutils -y &&\
-    rm /usr/bin/python && ln -s /usr/bin/python3.6 /usr/bin/python &&\
+    rm -rf /usr/bin/python && ln -s /usr/bin/python3 /usr/bin/python &&\
     apt-get update && apt-get install curl -y &&\
     curl -kL https://bootstrap.pypa.io/get-pip.py | python 
 
@@ -60,15 +60,16 @@ WORKDIR /
 # opengl 
 RUN apt-get install libglu1-mesa-dev mesa-common-dev mesa-utils freeglut3-dev libglfw3-dev libglfw3 -y
 
-# llvm
+# clang & llvm : https://apt.llvm.org
 RUN echo "# llvm repository" >> /etc/apt/sources.list &&\
     echo "deb http://apt.llvm.org/cosmic/ llvm-toolchain-cosmic-8 main" >> /etc/apt/sources.list &&\
     echo "deb-src http://apt.llvm.org/cosmic/ llvm-toolchain-cosmic-8 main" >> /etc/apt/sources.list &&\
     wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key|sudo apt-key add - &&\
     apt-get update &&\
     apt-get install libllvm-8-ocaml-dev libllvm8 llvm-8 llvm-8-dev llvm-8-doc llvm-8-examples llvm-8-runtime -y &&\
-    apt-get install clang-8 clang-tools-8 clang-8-doc libclang-common-8-dev libclang-8-dev libclang1-8 clang-format-8 python-clang-8 &&\
-    rm /usr/bin/clang && /usr/lib/llvm-8/bin/clang
+    apt-get install clang-8 clang-tools-8 clang-8-doc libclang-common-8-dev libclang-8-dev libclang1-8 clang-format-8 python-clang-8 -y &&\
+    rm -f /usr/bin/clang && ln -s /usr/lib/llvm-8/bin/clang /usr/bin/clang
+
 WORKDIR /opt
 RUN git clone https://github.com/halide/Halide.git Halide &&\
     cd Halide &&\
