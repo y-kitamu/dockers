@@ -25,3 +25,6 @@
 [submodule "engine/lib/opencv_contrib"]
 	path = engine/lib/opencv_contrib
 	url = https://github.com/opencv/opencv-contrib.git
+[submodule "django"]
+	path = django
+	url = https://github.com/y-kitamu/stock_portfolio.git
