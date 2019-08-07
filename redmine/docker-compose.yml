@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  ubuntu:
+    build:
+      context: ./ubuntu/
+    # restart: always
+    ports:
+      - "2345:8888"
+    commands:
+      - ""
+
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_PASSWORD: "sizebook01"
+      POSTGRES_USER: "redmine"
+      POSTGRES_DB: "redmine"
+      POSTGRES_INITDB_ARGS: "-E UTF-8"
+    restart: always
+    ports:
+      - "2346:3306"
