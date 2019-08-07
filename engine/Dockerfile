@@ -68,7 +68,9 @@ RUN echo "# llvm repository" >> /etc/apt/sources.list &&\
     apt-get update &&\
     apt-get install libllvm-8-ocaml-dev libllvm8 llvm-8 llvm-8-dev llvm-8-doc llvm-8-examples llvm-8-runtime -y &&\
     apt-get install clang-8 clang-tools-8 clang-8-doc libclang-common-8-dev libclang-8-dev libclang1-8 clang-format-8 python-clang-8 -y &&\
-    rm -f /usr/bin/clang && ln -s /usr/lib/llvm-8/bin/clang /usr/bin/clang
+    rm -f /usr/bin/clang &&\
+    ln -s /usr/lib/llvm-8/bin/clang /usr/bin/clang &&\
+    ln -s /usr/lib/llvm-8/bin/clang++ /usr/bin/clang++
 
 WORKDIR /opt
 RUN git clone https://github.com/halide/Halide.git Halide &&\
