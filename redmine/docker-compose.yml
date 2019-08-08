@@ -1,14 +1,22 @@
 version: '3'
 
 services:
-  ubuntu:
+  httpd:
     build:
-      context: ./ubuntu/
-    # restart: always
+      context: ./httpd/
+    depends_on:
+      - db
     ports:
-      - "2345:8888"
-    commands:
-      - ""
+      - "2345:443"
+      - "2354:80"
+    volumes:
+      - ./httpd/entrypoint.sh:/opt/entrypoint.sh
+      - ./src/files:/var/lib/redmine/files:z
+      - ./src/log:/var/lib/redmine/log:Z
+      - ./src/plugins:/var/lib/redmine/plugins
+      - ./src/public/themes:/var/lib/redmine/public/themes
+    restart: always
+    entrypoint: /opt/entrypoint.sh
 
   db:
     image: postgres:latest
@@ -18,5 +26,10 @@ services:
       POSTGRES_DB: "redmine"
       POSTGRES_INITDB_ARGS: "-E UTF-8"
     restart: always
+    volumes:
+      - postgres:/var/lib/postgresql/data
     ports:
       - "2346:3306"
+
+volumes:
+  postgres:
