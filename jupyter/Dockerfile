@@ -17,6 +17,9 @@ RUN pip install jupyter-emacskeys
 # google spread sheet api
 RUN pip install gspread oauth2client
 
+# opencv
+RUN pip install opencv-python
+
 USER root
 RUN apt-get update && apt-get install iproute2 -y
 
