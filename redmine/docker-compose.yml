@@ -1,5 +1,6 @@
 version: '3'
 
+# TODO : ssl 対応
 services:
   httpd:
     build:
@@ -11,12 +12,15 @@ services:
       - "2354:80"
     volumes:
       - ./httpd/entrypoint.sh:/opt/entrypoint.sh
+      - ./src/Gemfile.local:/var/lib/redmine/Gemfile.local
       - ./src/files:/var/lib/redmine/files:z
       - ./src/log:/var/lib/redmine/log:Z
       - ./src/plugins:/var/lib/redmine/plugins
       - ./src/public/themes:/var/lib/redmine/public/themes
     restart: always
     entrypoint: /opt/entrypoint.sh
+    extra_hosts:
+      - "ad:192.168.1.10"
 
   db:
     image: postgres:latest
