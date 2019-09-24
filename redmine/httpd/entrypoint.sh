@@ -7,6 +7,11 @@ cd /var/lib/redmine
 bundle install --without development test RAILS_ENV=production
 bundle exec rake redmine:plugins NAME=redmine_agile RAILS_ENV=production
 
+# RAILS_ENV=production bundle exec rake db:RAILS
+# migrate_ENV=production bundle exec rake redmine:plugins:migrate
+# RAILS_ENV=production REDMINE_LANG=ja bundle exec rake redmine:load_default_rake
+
+RAILS_ENV=production bundle exec rake db:reset
 RAILS_ENV=production bundle exec rake db:migrate
 RAILS_ENV=production bundle exec rake redmine:plugins:migrate
 RAILS_ENV=production REDMINE_LANG=ja bundle exec rake redmine:load_default_data

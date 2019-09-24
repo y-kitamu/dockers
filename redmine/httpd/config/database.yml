@@ -5,3 +5,12 @@ production:
   username: redmine
   password: sizebook01
   encoding: utf8
+  
+# production:
+#   adapter: mysql2
+#   database: redmine
+#   host: db
+#   username: root
+#   password: example
+#   encoding: utf8
+
