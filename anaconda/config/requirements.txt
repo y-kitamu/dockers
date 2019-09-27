@@ -1,0 +1,4 @@
+jupyterlab
+autopep8
+Keras
+tensorflow

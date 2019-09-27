@@ -11,7 +11,7 @@ services:
       - "8088:8888"
     volumes:
       - ./work:/home/jovyan/work/
-      - ~/work/engine2/sandbox/kitamura/image:/home/jovyan/work/engine_image/
-      - ~/work/engine2/sandbox/kitamura/output/:/home/jovyan/work/engine_csv/
+      # - ~/work/engine2/sandbox/kitamura/image:/home/jovyan/work/engine_image/
+      # - ~/work/engine2/sandbox/kitamura/output/:/home/jovyan/work/engine_csv/
     restart: always
     command: jupyter notebook --NotebookApp.password='sha1:667ccb914469:b2303e608226c018749e4de032ec05f5e9a9776c'

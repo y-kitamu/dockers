@@ -17,9 +17,8 @@ services:
       - /tmp/.X11-unix:/tmp/.X11-unix  # enable X socket communication
       - ~/.ssh:/home/${USER}/.ssh
       - ~/work:/home/${USER}/work
-      - ~/.emacs.d:/home/${USER}/.emacs.d
       - ~/.bashrc:/home/${USER}/.bashrc
-      # - ~/.bash_aliases:/home/${USER}/.bash_aliases
+      - ~/.bash_aliases:/home/${USER}/.bash_aliases
       - ~/.screenrc:/home/${USER}/.screenrc
       - ./lib:/home/${USER}/lib
       - ./local:/home/${USER}/local

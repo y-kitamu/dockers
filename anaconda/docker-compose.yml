@@ -2,17 +2,11 @@ version: '3'
 
 services:
   anaconda:
-    build:
-      context: .
-      dockerfile: ./Dockerfile
-      args:
-        user: "kitamura"
-        passwd: "passwd"
-        display: ${DISPLAY}
+    image: continuumio/anaconda3
     ports:
-      - "4000:22"
-    # network_mode: "host"
+      - "4000:8888"
     volumes:
-      - ./data:/home/kitamura/data/
-      - ./.bashrc:/home/kitamura/.bashrc
-      - /tmp/.X11-unix:/tmp/.X11-unix  # enable X socket communication
+      - ./work:/workdir
+      - ./config:/config
+    entrypoint: /config/entrypoint.sh
+
