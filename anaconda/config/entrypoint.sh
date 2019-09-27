@@ -1,10 +1,6 @@
 #!/bin/bash
 # ENTRYPOINT命令はコンテナ起動時に実行するコマンドを指定（基本docker runの時に上書きしないもの）
 
-/opt/conda/bin/conda install jupyter -y --quiet
-
-/opt/conda/bin/jupyter serverextension enable --py jupyterlab
-
 # "jupyter-lab" => jupyter-lab立ち上げコマンド
 # "--ip=0.0.0.0" => ip制限なし
 # "--port=8888" => EXPOSE命令で書いたポート番号と合わせる
