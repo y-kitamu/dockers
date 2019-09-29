@@ -10,3 +10,12 @@ RUN /opt/conda/bin/jupyter serverextension enable --py jupyterlab
 
 # install extensions
 RUN /opt/conda/bin/jupyter labextension install jupyterlab-emacskeys
+RUN /opt/conda/bin/jupyter labextension install @oriolmirosa/jupyterlab_materialdarker
+
+# add user
+ARG user
+
+RUN useradd -m ${user}
+RUN usermod -aG sudo ${user}
+
+USER ${user}

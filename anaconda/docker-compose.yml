@@ -1,14 +1,20 @@
 version: '3'
 
+# TODO : volume (work) の所有者を root から変更する
 services:
   anaconda:
     build:
       context: .
       dockerfile: ./Dockerfile
+      args:
+        user: ${user}
     ports:
       - "4000:8888"
+    restart: always
     volumes:
-      - ./work:/workdir
-      - ./config:/config
-    entrypoint: /config/entrypoint.sh
+      - ./work:/home/${user}/workdir
+      - ./config:/home/${user}/config
+      - ./work/.jupyter:/home/${user}/.jupyter # jupyter の設定ファイル
+    entrypoint: /home/${user}/config/entrypoint.sh
+    command: ${user}
 
