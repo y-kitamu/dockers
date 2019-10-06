@@ -12,6 +12,9 @@ RUN /opt/conda/bin/jupyter serverextension enable --py jupyterlab
 RUN /opt/conda/bin/jupyter labextension install jupyterlab-emacskeys
 RUN /opt/conda/bin/jupyter labextension install @oriolmirosa/jupyterlab_materialdarker
 
+# install other libraries
+RUN /opt/conda/bin/conda install -c conda-forge pyprind -y
+
 # add user
 ARG user
 
