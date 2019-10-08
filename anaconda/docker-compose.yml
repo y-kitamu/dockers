@@ -10,6 +10,7 @@ services:
         user: ${user}
     ports:
       - "4000:8888"
+      - "5000:5000" # for flask app
     restart: always
     volumes:
       - ./work:/home/${user}/workdir
