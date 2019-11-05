@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  rocker:
+    image: rocker/verse
+    environment:
+      - PASSWORD=password
+    volumes:
+      - ./work:/home/rstudio/kitematic/work
+    ports:
+      - "8787:8787"

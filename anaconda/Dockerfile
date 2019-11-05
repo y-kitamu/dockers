@@ -14,7 +14,8 @@ RUN /opt/conda/bin/jupyter labextension install @oriolmirosa/jupyterlab_material
 
 # install other libraries
 RUN /opt/conda/bin/conda install -c conda-forge pyprind -y
-RUN /opt/conda/bin/conda install wtforms -y # for flask 
+RUN /opt/conda/bin/conda install wtforms -y # for flask
+RUN /opt/conda/bin/conda install Theano -y 
 
 # add user
 ARG user
