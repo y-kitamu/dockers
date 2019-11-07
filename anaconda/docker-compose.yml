@@ -8,6 +8,7 @@ services:
       dockerfile: ./Dockerfile
       args:
         user: ${user}
+        password: ${password}
     ports:
       - "4000:8888"
       - "5000:5000" # for flask app
@@ -18,4 +19,3 @@ services:
       - ./work/.jupyter:/home/${user}/.jupyter # jupyter の設定ファイル
     entrypoint: /home/${user}/config/entrypoint.sh
     command: ${user}
-
