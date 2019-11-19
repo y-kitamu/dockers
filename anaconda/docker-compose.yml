@@ -10,7 +10,7 @@ services:
         user: ${user}
         password: ${password}
     ports:
-      - "4000:8888"
+      - "4000:8888" # for jupyter lab
       - "5000:5000" # for flask app
     restart: always
     volumes:
