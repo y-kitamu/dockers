@@ -20,6 +20,11 @@ RUN /opt/conda/bin/conda install wtforms -y # for flask
 RUN /opt/conda/bin/conda install Theano -y
 RUN /opt/conda/bin/conda install statsmodels -y  # statistical model
 
+RUN /opt/conda/bin/conda install cupy -y
+RUN /opt/conda/bin/conda install chainer -y
+
+RUN /opt/conda/bin/conda update jupyterlab -y
+
 ##### Other Settings #####
 RUN apt-get update -y && apt-get install sudo -y
 
