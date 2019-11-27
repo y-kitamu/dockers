@@ -83,3 +83,6 @@ RUN apt-get install -y libboost-all-dev
 
 # install c++ profiler tools (gperftools, valgrind, kcachegrind)
 RUN apt-get install -y google-perftools libgoogle-perftools-dev valgrind kcachegrind
+
+# install zenity
+RUN apt-get update && apt-get install -y zenity
