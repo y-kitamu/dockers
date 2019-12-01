@@ -74,9 +74,11 @@ RUN echo "# llvm repository" >> /etc/apt/sources.list &&\
 # halide
 WORKDIR /opt
 RUN git clone https://github.com/halide/Halide.git Halide &&\
-    cd Halide &&\
+    cd Halide && mkdir build && cd build &&\
     export LLVM_CONFIG=/usr/bin/llvm-config-8 &&\
-    make && make distrib
+    make -f ../Makefile -j 4 &&\
+    cp -r include /usr/local/include/halide &&\
+    cp -r bin/libHalide.so /usr/local/lib/
 
 # boost
 RUN apt-get install -y libboost-all-dev
