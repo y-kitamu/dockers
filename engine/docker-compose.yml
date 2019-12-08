@@ -15,6 +15,7 @@ services:
       - PATH=/usr/local/nvidia/bin:${PATH}
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix  # enable X socket communication
+      - /etc/localtime:/etc/localtime  # correct docker timezone (UTC -> JST)
       - ~/.ssh:/home/${USER}/.ssh
       - ~/work:/home/${USER}/work
       - ~/.bashrc:/home/${USER}/.bashrc

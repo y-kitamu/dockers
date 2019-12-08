@@ -74,11 +74,12 @@ RUN echo "# llvm repository" >> /etc/apt/sources.list &&\
 # halide
 WORKDIR /opt
 RUN git clone https://github.com/halide/Halide.git Halide &&\
-    cd Halide && mkdir build && cd build &&\
+    mkdir build && cd build &&\
     export LLVM_CONFIG=/usr/bin/llvm-config-8 &&\
     make -f ../Makefile -j 4 &&\
-    cp -r include /usr/local/include/halide &&\
-    cp -r bin/libHalide.so /usr/local/lib/
+    cp -r include /usr/local/include/halide
+ADD ./config/halide.conf /etc/ld.so.conf.d/halide.conf
+RUN ldconfig
 
 # boost
 RUN apt-get install -y libboost-all-dev
@@ -88,3 +89,15 @@ RUN apt-get install -y google-perftools libgoogle-perftools-dev valgrind kcacheg
 
 # install zenity
 RUN apt-get update && apt-get install -y zenity
+
+# global(GTAGS), Pygments
+WORKDIR /opt
+RUN wget http://tamacom.com/global/global-6.6.3.tar.gz &&\
+    tar -zxvf global-6.6.3.tar.gz &&\
+    cd global-6.6.3 &&\
+    ./configure &&\
+    make &&\
+    make install &&\
+    cp /usr/local/share/gtags/gtags.conf /etc/
+RUN apt-get install ctags python-pygments -y
+RUN pip install Pygments
