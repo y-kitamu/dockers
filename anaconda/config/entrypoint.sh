@@ -10,4 +10,4 @@ set -eu
 # ”--no-browser” => ブラウザを立ち上げない。コンテナ側にはブラウザがないので 。
 # "--allow-root" => rootユーザーの許可。セキュリティ的には良くないので、自分で使うときだけ。
 # "--NotebookApp.token=''" => トークンなしで起動許可。これもセキュリティ的には良くない。
-/opt/conda/bin/jupyter lab --ip='*' --port=8888 --no-browser --allow-root --NotebookApp.token='' --notebook-dir=/home/$1/workdir
+/opt/conda/bin/jupyter lab --ip='*' --port=8888 --no-browser --allow-root --NotebookApp.token='' --notebook-dir=/home/$1/work

@@ -14,7 +14,7 @@ services:
       - "5000:5000" # for flask app
     restart: always
     volumes:
-      - ./work:/home/${user}/workdir
+      - ./work:/home/${user}/work
       - ./config:/home/${user}/config
       - ./work/.jupyter:/home/${user}/.jupyter # jupyter の設定ファイル
     entrypoint: /home/${user}/config/entrypoint.sh

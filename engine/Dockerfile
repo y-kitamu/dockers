@@ -38,7 +38,7 @@ RUN git clone https://github.com/Kitware/CMake.git cmake &&\
 RUN apt-get install python3-distutils -y &&\
     rm -rf /usr/bin/python && ln -s /usr/bin/python3 /usr/bin/python &&\
     apt-get update && apt-get install curl -y &&\
-    curl -kL https://bootstrap.pypa.io/get-pip.py | python 
+    curl -kL https://bootstrap.pypa.io/get-pip.py | python
 
 # build opencv
 RUN apt-get update &&\
@@ -62,24 +62,24 @@ RUN apt-get install libglu1-mesa-dev mesa-common-dev mesa-utils freeglut3-dev li
 
 # clang & llvm : https://apt.llvm.org
 RUN echo "# llvm repository" >> /etc/apt/sources.list &&\
-    echo "deb http://apt.llvm.org/cosmic/ llvm-toolchain-cosmic-8 main" >> /etc/apt/sources.list &&\
-    echo "deb-src http://apt.llvm.org/cosmic/ llvm-toolchain-cosmic-8 main" >> /etc/apt/sources.list &&\
+    echo "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-9 main" >> /etc/apt/sources.list &&\
+    echo "deb-src http://apt.llvm.org/bionic/ llvm-toolchain-bionic-9 main" >> /etc/apt/sources.list &&\
     wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key|sudo apt-key add - &&\
     apt-get update &&\
-    apt-get install libllvm-8-ocaml-dev libllvm8 llvm-8 llvm-8-dev llvm-8-doc llvm-8-examples llvm-8-runtime -y &&\
-    apt-get install clang-8 clang-tools-8 clang-8-doc libclang-common-8-dev libclang-8-dev libclang1-8 clang-format-8 python-clang-8 -y &&\
-    rm -f /usr/bin/clang && ln -s /usr/lib/llvm-8/bin/clang /usr/bin/clang &&\
-    rm -f /usr/bin/clang++ && ln -s /usr/lib/llvm-8/bin/clang++ /usr/bin/clang++
+    apt-get install libllvm-9-ocaml-dev libllvm9 llvm-9 llvm-9-dev llvm-9-doc llvm-9-examples llvm-9-runtime -y &&\
+    apt-get install clang-9 clang-tools-9 clang-9-doc libclang-common-9-dev libclang-9-dev libclang1-9 clang-format-9 python-clang-9 -y &&\
+    apt-get install lldb-9 lld-9 &&\
+    rm -f /usr/bin/clang && ln -s /usr/lib/llvm-9/bin/clang /usr/bin/clang &&\
+    rm -f /usr/bin/clang++ && ln -s /usr/lib/llvm-9/bin/clang++ /usr/bin/clang++
 
 # halide
 WORKDIR /opt
 RUN git clone https://github.com/halide/Halide.git Halide &&\
-    mkdir build && cd build &&\
-    export LLVM_CONFIG=/usr/bin/llvm-config-8 &&\
+    cd Halide && mkdir build && cd build &&\
+    export LLVM_CONFIG=/usr/bin/llvm-config-9 &&\
     make -f ../Makefile -j 4 &&\
-    cp -r include /usr/local/include/halide
-ADD ./config/halide.conf /etc/ld.so.conf.d/halide.conf
-RUN ldconfig
+    cp -r include /usr/local/include/halide &&\
+    ln -s /opt/Halide/build/bin/libHalide.so /usr/local/lib/libHalide.so
 
 # boost
 RUN apt-get install -y libboost-all-dev
@@ -100,4 +100,6 @@ RUN wget http://tamacom.com/global/global-6.6.3.tar.gz &&\
     make install &&\
     cp /usr/local/share/gtags/gtags.conf /etc/
 RUN apt-get install ctags python-pygments -y
-RUN pip install Pygments
+# RUN pip install Pygments
+
+# emacs 

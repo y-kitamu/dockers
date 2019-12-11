@@ -1,5 +1,13 @@
 FROM continuumio/anaconda3
 
+# add user
+ARG user
+ARG password
+
+RUN useradd -m ${user} &&\
+    usermod -aG sudo ${user} &&\
+    echo "${user}:${password}" | chpasswd
+
 ##### JupyterLab Settings #####
 
 # install nodejs (required by labextension)
@@ -16,10 +24,18 @@ RUN /opt/conda/bin/conda install wtforms -y # for flask
 RUN /opt/conda/bin/conda install Theano -y
 RUN /opt/conda/bin/conda install statsmodels -y  # statistical model
 
-RUN /opt/conda/bin/conda install cupy -y
-RUN /opt/conda/bin/conda install chainer -y
+RUN /opt/conda/bin/pip install cupy
+RUN /opt/conda/bin/pip install chainer
 
 RUN /opt/conda/bin/pip install opencv-python
+RUN /opt/conda/bin/pip install chainercv
+
+ADD libs /opt/libs
+WORKDIR /opt/libs
+
+RUN cd cocoapi/PythonAPI && make && make install
+
+WORKDIR /
 
 RUN /opt/conda/bin/conda update jupyterlab -y
 
@@ -30,12 +46,5 @@ RUN /opt/conda/bin/jupyter labextension install @oriolmirosa/jupyterlab_material
 ##### Other Settings #####
 RUN apt-get update -y && apt-get install sudo -y
 
-# add user
-ARG user
-ARG password
-
-RUN useradd -m ${user} &&\
-    usermod -aG sudo ${user} &&\
-    echo "${user}:${password}" | chpasswd
-
 USER ${user}
+
