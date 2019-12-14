@@ -1,0 +1,17 @@
+version: "3"
+
+services:
+  env:
+    image: paperist/alpine-texlive-ja
+    volumes:
+      - ${PWD}:/workdir
+      - .latexmkrc:/workdir/.latexmkrc
+      - ./config:/config
+      - /etc/shadow:/etc/shadow
+      - /etc/passwd:/etc/passwd
+      - /etc/group:/etc/group
+    environment:
+      - SOURCE_FILE=${SOURCE_FILE}
+      - USER_NAME=${USER_NAME}
+      - GROUP_NAME=${GROUP_NAME}
+    entrypoint: /config/entrypoint.sh
