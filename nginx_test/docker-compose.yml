@@ -2,10 +2,14 @@ version: "3"
 
 services:
   nginx:
-    image: nginx:latest
+    build:
+      context: .
+      args:
+        USER: ${USER}
+        PASSWORD: test
     volumes:
-      - ./html:/usr/share/nginx/hmtl
+      - ./html:/WWW/html
+      - ./conf:/etc/nginx/conf.d
     ports:
       - 8080:80
-
 
