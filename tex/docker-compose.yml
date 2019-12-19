@@ -2,7 +2,8 @@ version: "3"
 
 services:
   env:
-    image: paperist/alpine-texlive-ja
+    build:
+      context: .
     volumes:
       - ${PWD}:/workdir
       - .latexmkrc:/workdir/.latexmkrc

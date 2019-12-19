@@ -1,8 +1,11 @@
 \documentclass[uplatex, dvipdfmx]{jsarticle}
-\和暦
 \usepackage[top=25truemm,bottom=25truemm,left=25truemm,right=25truemm]{geometry}
 \usepackage{graphicx}
 \usepackage{color}
+\usepackage{pictex}
+\usepackage{tree}
+\usepackage{dirtree}
+\usepackage{framed}
 \graphicspath{{./images/}}
 \setcounter{tocdepth}{3} % show subsubsection in table of contents
 
@@ -41,12 +44,27 @@ inline 数式 : ${\rm x \times y = xy}$
   \centering
   \includegraphics[width=0.95\textwidth]{Lenna.png}
   \caption{キャプション}
-  \label{figure_label}
+  \label{fig:figure_label}
 \end{figure}
 
+図\ref{fig:figure_label}
 %% \afterpage{\clearpage}
 
 % --------------------------------------------------------------------------------
 \input input_sample.tex
-
+\begin{center}
+  \begin{minipage}{0.5\textwidth}
+    \dirtree{%
+      .1 ProjectRoot.
+      .2 src.
+      .3 c++\DTcomment{c++ source}.
+      .3 python\DTcomment{python source}.
+      .2 data.
+      .2 sample.
+      .2 test.
+      .2 README\.MD.
+    }
+  \end{minipage}
+\end{center}
+テスト
 \end{document}
