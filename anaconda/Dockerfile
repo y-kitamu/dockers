@@ -30,6 +30,8 @@ RUN /opt/conda/bin/pip install chainer
 RUN /opt/conda/bin/pip install opencv-python
 RUN /opt/conda/bin/pip install chainercv
 
+RUN /opt/conda/bin/pip install tensorflow
+
 ADD libs /opt/libs
 WORKDIR /opt/libs
 
