@@ -1,0 +1,8 @@
+FROM python:latest
+
+ARG APP_PATH
+
+COPY requirements.base.txt ${APP_PATH}/
+RUN pip install --no-cache-dir -r ${APP_PATH}/requirements.base.txt
+
+WORKDIR ${APP_PATH}
