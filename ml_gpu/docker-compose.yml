@@ -18,3 +18,4 @@ services:
       - /etc/group:/etc/group
     entrypoint: /home/${USER}/config/entrypoint.sh
     command: ${USER}
+

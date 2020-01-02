@@ -1,4 +1,4 @@
-FROM nvidia/cuda:10.1-base
+FROM nvidia/cuda:10.0-cudnn7-runtime-ubuntu18.04
 
 ARG user
 ARG password
@@ -12,10 +12,6 @@ RUN apt-get update && apt-get upgrade -y &&\
 RUN curl -sL https://deb.nodesource.com/setup_9.x | bash - 
 RUN apt-get install nodejs npm -y
 
-RUN pip3 install -U pip
-RUN pip3 install numpy pandas matplotlib seaborn scikit-learn opencv-python
-RUN pip3 install tensorflow pandas-ml
-
 RUN pip3 install jupyter
 RUN pip3 install jupyterlab widgetsnbextension
 RUN jupyter serverextension enable --py jupyterlab --sys-prefix
@@ -23,8 +19,9 @@ RUN jupyter serverextension enable --py jupyterlab --sys-prefix
 RUN jupyter labextension install jupyterlab-emacskeys
 RUN jupyter labextension install @oriolmirosa/jupyterlab_materialdarker
 
+RUN pip3 install -U pip
+RUN pip3 install numpy pandas matplotlib seaborn scikit-learn opencv-python
+RUN pip3 install tensorflow tensorflow-gpu pandas-ml
+
 USER ${user}
-
-
-
 
