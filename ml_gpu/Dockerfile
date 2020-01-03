@@ -22,6 +22,10 @@ RUN jupyter labextension install @oriolmirosa/jupyterlab_materialdarker
 RUN pip3 install -U pip
 RUN pip3 install numpy pandas matplotlib seaborn scikit-learn opencv-python
 RUN pip3 install tensorflow tensorflow-gpu pandas-ml
+RUN pip3 install tensorflow-hub tensorflow-datasets
+
+RUN apt-get update && apt-get upgrade -y && apt-get install sudo git -y
+RUN pip3 install -q git+https://github.com/tensorflow/docs
 
 USER ${user}
 
