@@ -45,6 +45,13 @@
             ],
             "selector": "body"
         },
-        
+         {
+            "command": "settingeditor:open",
+            "keys": [
+                "Accel ,"
+            ],
+            "selector": "body",
+            "disabled": true
+        },       
     ]
 }
