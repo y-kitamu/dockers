@@ -27,5 +27,7 @@ RUN pip3 install tensorflow-hub tensorflow-datasets
 RUN apt-get update && apt-get upgrade -y && apt-get install sudo git -y
 RUN pip3 install -q git+https://github.com/tensorflow/docs
 
+RUN pip3 install pillow
+
 USER ${user}
 
