@@ -16,8 +16,10 @@ RUN pip3 install jupyter
 RUN pip3 install jupyterlab widgetsnbextension
 RUN jupyter serverextension enable --py jupyterlab --sys-prefix
 
-RUN jupyter labextension install jupyterlab-emacskeys
+RUN jupyter labextension install jupyterlab-emacskeys 
 RUN jupyter labextension install @oriolmirosa/jupyterlab_materialdarker
+RUN pip3 install --upgrade jupyterlab-git
+RUN jupyter lab build
 
 RUN pip3 install -U pip
 RUN pip3 install numpy pandas matplotlib seaborn scikit-learn opencv-python
@@ -27,7 +29,8 @@ RUN pip3 install tensorflow-hub tensorflow-datasets tensorflow-text
 RUN apt-get update && apt-get upgrade -y && apt-get install sudo git -y
 RUN pip3 install -q git+https://github.com/tensorflow/docs
 
-RUN pip3 install pillow
+RUN pip3 install pillow plotly
+
+RUN apt-get install libsm6 libxext6 libxrender-dev -y
 
 USER ${user}
-

@@ -45,7 +45,7 @@
             ],
             "selector": "body"
         },
-         {
+        {
             "command": "settingeditor:open",
             "keys": [
                 "Accel ,"
@@ -53,5 +53,12 @@
             "selector": "body",
             "disabled": true
         },       
-    ]
+         {
+            "command": "docmanager:save",
+            "keys": [
+                "Accel Alt S"
+            ],
+            "selector": "body",
+        },       
+   ]
 }

@@ -14,6 +14,7 @@ docker run -t -i -p 4000:8888 --name ${container_name} --gpus all \
        -v /home/`id -n -u`/work:/home/`id -n -u`/work \
        -v /home/`id -n -u`/.bashrc:/home/`id -n -u`/.bashrc \
        -v /etc/passwd:/etc/passwd \
+       -v /etc/shadow:/etc/shadow \
        -v /etc/group:/etc/group \
        -e USER_ID=`id -u` -e GROUP_ID=`id -g` \
        -e USER=`id -n -u` -e GROUP=`id -n -g` \
