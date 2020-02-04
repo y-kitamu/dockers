@@ -9,6 +9,8 @@ nginx でリバースプロキシしているので、外からは nginx の por
 
 ## Build
 
+settings.py の中身の　ALLOWED_HOSTS を　["*"] にするとすべてのホストからアクセスできる
+
 - release 用 コンテナ立ち上げ
 ```shell
 docker-compose build && docker-compose up -d
