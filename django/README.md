@@ -16,7 +16,13 @@ docker-compose build && docker-compose up -d
 
 - dev 用サーバー立ち上げ 
 (release 用コンテナだとファイルの更新が反映されない)
+先に release 用コンテナを立ち上げておく。
+settings.py の DATABASE の HOST を 'localhost' にして以下のコマンドを実行
 ```shell
+# host machine に postgresql をインストール
+sudo apt install postgresql
+
+# サーバー立ち上げ
 cd <path>/<to>/<project_root>
 python manage.py runserver [port]
 # (docker 上で runserver してもうまく動いてくれない、、、)
