@@ -9,9 +9,18 @@ nginx でリバースプロキシしているので、外からは nginx の por
 
 ## Build
 
-- コンテナ立ち上げ
+- release 用 コンテナ立ち上げ
 ```shell
 docker-compose build && docker-compose up -d
+```
+
+- dev 用サーバー立ち上げ 
+(release 用コンテナだとファイルの更新が反映されない)
+```shell
+cd <path>/<to>/<project_root>
+python manage.py runserver [port]
+# (docker 上で runserver してもうまく動いてくれない、、、)
+# port は default は 8000
 ```
 
 - 新しく app を作成
