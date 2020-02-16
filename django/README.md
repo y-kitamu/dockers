@@ -16,30 +16,45 @@ settings.py の中身の　ALLOWED_HOSTS を　["*"] にするとすべてのホ
 docker-compose build && docker-compose up -d
 ```
 
-- dev 用サーバー立ち上げ 
-(release 用コンテナだとファイルの更新が反映されない)
-先に release 用コンテナを立ち上げておく。
-(そうすると、開発中のデータベースの変更が release 用の db に保存される)
-settings.py の DATABASE の HOST を 'localhost' にして以下のコマンドを実行
+- dev 用サーバー立ち上げ (release 用コンテナだとファイルの更新が再起動時しか反映されない)
 ```shell
-# host machine に postgresql をインストール
-sudo apt install postgresql
-
-# サーバー立ち上げ
-cd <path>/<to>/<project_root>
-python manage.py runserver [ip:port]
-# (docker 上で runserver してもうまく動いてくれない、、、)
-# ip に 0 を設定するとすべてのipからのリクエストを受け付ける、port は default は 8000
+docker-compose -f docker-compose.dev.yml -d
 ```
 
 - 新しく app を作成
 ```shell
 docker exec <container_name> django-admin startapp <appname>
 ```
+<project_name>/settings.py の INSTALLED_APPS に追記
+```python settings.py
+~
+INSTALLED_APPS = [
+    '<appname>.apps.<Appname>Config',
+    ...
+]
+~
+~
+```
+
 - model の merge
 ```shell
 docker exec <container_name> python manage.py makemigrations
 docker exec <container_name> python manage.py migrate
+```
+
+- admin 画面を使用する
+```shell
+# super user の作成
+python manage.py createsuperuser
+```
+
+```python admin.py
+from models import <ModelName>
+
+# モデルを admin 画面から編集できるようにする追加
+admin.site.register(<ModelName>)
+
+~
 ```
 
 ## Settings
@@ -49,6 +64,6 @@ docker exec <container_name> python manage.py migrate
 DJANGO_PORT=3333 # この値を変更したら nginx/nginx.conf の　upstream django_server の値も変更する
 DJANGO_PROJECT_NAME=project_x # django の project 名
 DJANGO_APP_PATH=work/django # ${HOME} 以下のdjango のプロジェクトを作成（存在）するディレクトリ
-NGINX_PORT=8080
+NGINX_PORT=8080 # release 用のサーバーの場合、この port にアクセスすると reverse proxy で django に redirect される
 POSTGRES_PORT=5432
 ```

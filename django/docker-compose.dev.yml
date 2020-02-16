@@ -1,0 +1,45 @@
+version: "3.7"
+
+services:
+  django:
+    env_file: .env
+    build:
+      context: ./django/
+      dockerfile: Dockerfile
+      args:
+        USER: ${USER}
+        APP_PATH: ${HOME}/${DJANGO_APP_PATH}
+    depends_on:
+      - postgres
+    volumes:
+      - /etc/passwd:/etc/passwd
+      - /etc/shadow:/etc/shadow
+      - /etc/group:/etc/group
+      # - ${HOME}/${DJANGO_APP_PATH}:${HOME}/${DJANGO_APP_PATH}
+      - ${HOME}/work:${HOME}/work
+      - ./config:${HOME}/config
+      - staticdata:/opt/static
+    environment:
+      PYTHONPATH: ${HOME}/${DJANGO_APP_PATH}
+    ports:
+      - ${DJANGO_PORT}:${DJANGO_PORT}
+    environment:
+      - DJANGO_USER=${USER}
+      - DJANGO_PORT=${DJANGO_PORT}
+      - DJANGO_PROJECT_NAME=${DJANGO_PROJECT_NAME}
+    entrypoint: ${HOME}/config/entrypoint.dev.sh
+    restart: always
+
+  postgres:
+    env_file: .env
+    image: postgres
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+    # environment:
+    #   POSTGRES_PASSWORD: 
+
+volumes:
+  dbdata:
+  staticdata:
