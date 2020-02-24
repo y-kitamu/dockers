@@ -1,16 +1,14 @@
-FROM ubuntu:18.10
+FROM ubuntu:18.04
 
 MAINTAINER y-kitamu ymyk6602@gmail.com
 
 # docker-compose.yml args
 ARG user
-ARG passwd
 ARG display
 
 # add user
 RUN useradd -ms /bin/bash ${user}
 RUN usermod -aG sudo ${user}
-RUN echo "${user}:${passwd}" | chpasswd
 
 # display
 RUN echo "export DISPLAY=${display}" >> /etc/profile
@@ -24,7 +22,7 @@ RUN sed -ri 's/UsePAM yes/#UsePAM yes/g' /etc/ssh/sshd_config
 # gcc, g++, build-essential, git
 RUN apt-get update &&\
     apt-get upgrade -y &&\
-    apt-get install sudo gcc g++ build-essential git ninja-build -y
+    apt-get install sudo gcc g++ build-essential git ninja-build openssl libssl-dev -y
 
 WORKDIR /opt
 
@@ -61,14 +59,8 @@ WORKDIR /
 RUN apt-get install libglu1-mesa-dev mesa-common-dev mesa-utils freeglut3-dev libglfw3-dev libglfw3 -y
 
 # clang & llvm : https://apt.llvm.org
-RUN echo "# llvm repository" >> /etc/apt/sources.list &&\
-    echo "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-9 main" >> /etc/apt/sources.list &&\
-    echo "deb-src http://apt.llvm.org/bionic/ llvm-toolchain-bionic-9 main" >> /etc/apt/sources.list &&\
-    wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key|sudo apt-key add - &&\
-    apt-get update &&\
-    apt-get install libllvm-9-ocaml-dev libllvm9 llvm-9 llvm-9-dev llvm-9-doc llvm-9-examples llvm-9-runtime -y &&\
-    apt-get install clang-9 clang-tools-9 clang-9-doc libclang-common-9-dev libclang-9-dev libclang1-9 clang-format-9 python-clang-9 -y &&\
-    apt-get install lldb-9 lld-9 &&\
+RUN apt-get update && apt-get install -y lsb-release software-properties-common && apt-get clean all
+RUN bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)" &&\
     rm -f /usr/bin/clang && ln -s /usr/lib/llvm-9/bin/clang /usr/bin/clang &&\
     rm -f /usr/bin/clang++ && ln -s /usr/lib/llvm-9/bin/clang++ /usr/bin/clang++
 
@@ -91,6 +83,7 @@ RUN apt-get install -y google-perftools libgoogle-perftools-dev valgrind kcacheg
 RUN apt-get update && apt-get install -y zenity
 
 # global(GTAGS), Pygments
+RUN apt-get install ctags python-pygments libncurses-dev -y
 WORKDIR /opt
 RUN wget http://tamacom.com/global/global-6.6.3.tar.gz &&\
     tar -zxvf global-6.6.3.tar.gz &&\
@@ -99,7 +92,6 @@ RUN wget http://tamacom.com/global/global-6.6.3.tar.gz &&\
     make &&\
     make install &&\
     cp /usr/local/share/gtags/gtags.conf /etc/
-RUN apt-get install ctags python-pygments -y
 # RUN pip install Pygments
 
 # emacs 

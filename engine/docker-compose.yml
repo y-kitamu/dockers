@@ -1,14 +1,14 @@
 version: '3'
 
 services:
-  devenv:
+  engine:
+    container_name: cpp_engine
     build:
       context: .
       dockerfile: ./Dockerfile
       args:
         user: ${USER}
-        passwd: ${PASSWORD}
-        display: ${DISPLAY}  # setting in 'environment', not work 
+        display: ${DISPLAY}
     ports:
       - "${ENGINE_HOST_PORT}:${ENGINE_CONTAINER_PORT}"
     environment:
@@ -16,13 +16,13 @@ services:
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix  # enable X socket communication
       - /etc/localtime:/etc/localtime  # correct docker timezone (UTC -> JST)
+      - /etc/passwd:/etc/passwd
+      - /etc/shadow:/etc/shadow
+      - /etc/group:/etc/group
       - ~/.ssh:/home/${USER}/.ssh
       - ~/work:/home/${USER}/work
       - ~/.bashrc:/home/${USER}/.bashrc
       - ~/.bash_aliases:/home/${USER}/.bash_aliases
-      - ~/.screenrc:/home/${USER}/.screenrc
       - ./lib:/home/${USER}/lib
-      - ./local:/home/${USER}/local
-      - /tmp/.X11-unix:/tmp/.x11-unix
     restart: always
     command: /usr/sbin/sshd -D
