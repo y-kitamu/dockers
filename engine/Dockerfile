@@ -94,4 +94,13 @@ RUN wget http://tamacom.com/global/global-6.6.3.tar.gz &&\
     cp /usr/local/share/gtags/gtags.conf /etc/
 # RUN pip install Pygments
 
-# emacs 
+# emacs
+# WORKDIR /opt
+# RUN apt-get update && apt-get upgrade -y &&\
+#     apt-get install -y\
+#     libgtk-3-dev libtiff-dev libgif-dev libpng-dev libxpm-dev libncurses5-dev libgnutls28-dev
+# RUN wget http://ftp.jaist.ac.jp/pub/GNU/emacs/emacs-26.3.tar.gz && tar -xzvf emacs-26.3.tar.gz &&\
+#     cd emacs-26.3 && ./configure && make && make install
+RUN add-apt-repository ppa:kelleyk/emacs
+RUN apt-get update && apt-get install emacs26 -y
+

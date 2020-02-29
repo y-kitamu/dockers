@@ -3,6 +3,7 @@ version: '3'
 services:
   engine:
     container_name: cpp_engine
+    hostname: cpp-engine
     build:
       context: .
       dockerfile: ./Dockerfile
@@ -23,6 +24,7 @@ services:
       - ~/work:/home/${USER}/work
       - ~/.bashrc:/home/${USER}/.bashrc
       - ~/.bash_aliases:/home/${USER}/.bash_aliases
+      - ~/.emacs.d:/home/${USER}/.emacs.d
       - ./lib:/home/${USER}/lib
     restart: always
     command: /usr/sbin/sshd -D
