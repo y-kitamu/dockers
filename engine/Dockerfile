@@ -103,4 +103,4 @@ RUN wget http://tamacom.com/global/global-6.6.3.tar.gz &&\
 #     cd emacs-26.3 && ./configure && make && make install
 RUN add-apt-repository ppa:kelleyk/emacs
 RUN apt-get update && apt-get install emacs26 -y
-
+RUN apt-get update && apt-get install locate -y

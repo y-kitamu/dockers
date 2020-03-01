@@ -14,17 +14,16 @@ services:
       - "${ENGINE_HOST_PORT}:${ENGINE_CONTAINER_PORT}"
     environment:
       - PATH=/usr/local/nvidia/bin:${PATH}
+      - USER_NAME=${USER}
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix  # enable X socket communication
       - /etc/localtime:/etc/localtime  # correct docker timezone (UTC -> JST)
       - /etc/passwd:/etc/passwd
       - /etc/shadow:/etc/shadow
       - /etc/group:/etc/group
-      - ~/.ssh:/home/${USER}/.ssh
       - ~/work:/home/${USER}/work
-      - ~/.bashrc:/home/${USER}/.bashrc
-      - ~/.bash_aliases:/home/${USER}/.bash_aliases
-      - ~/.emacs.d:/home/${USER}/.emacs.d
-      - ./lib:/home/${USER}/lib
+      - ~/dotfiles:/home/${USER}/dotfiles
+      - ./config:/home/${USER}/config
+      - ~/.gitconfig:/home/${USER}/.gitconfig
     restart: always
-    command: /usr/sbin/sshd -D
+    command: /home/${USER}/config/entrypoint.sh
