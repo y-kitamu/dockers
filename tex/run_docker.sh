@@ -3,18 +3,18 @@
 CMDNAME=`basename $0`
 export DOCKER_DIR=`dirname $0`
 
-while getopts hn: OPT
+while getopts hs: OPT
 do
     case $OPT in
-        "n" ) FLG_N="TRUE" ; export SOURCE_FILE="${OPTARG}" ;;
+        "s" ) FLG_S="TRUE" ; export SOURCE_FILE="${OPTARG}" ;;
          *  ) ;;
     esac
 done
 
-if [ "${FLG_N}" == "TRUE" ]; then
+if [ "${FLG_S}" == "TRUE" ]; then
     export USER_NAME=`id -un`
     export GROUP_NAME=`id -gn`
-    docker-compose up
+    docker-compose -f ${DOCKER_DIR}/docker-compose.yml up
     unset SOURCE_FILE
     unset USER_NAME
     unset GROUP_NAME
@@ -23,7 +23,7 @@ else
 Description:
      Run tex generating docker.
 Usage:
-    ./$0 -n <tex souce filename>
+    ./$0 -s <tex souce filename>
 EOF
 fi
 
