@@ -56,8 +56,14 @@ RUN apt-get install libglu1-mesa-dev mesa-common-dev mesa-utils freeglut3-dev li
 
 # clang & llvm : https://apt.llvm.org
 RUN apt-get update && apt-get install -y lsb-release software-properties-common && apt-get clean all
-RUN bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)" &&\
-    rm -f /usr/bin/clang && ln -s /usr/lib/llvm-9/bin/clang /usr/bin/clang &&\
+RUN wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add -
+RUN apt-get update &&\
+    apt-get install -y libllvm-9-ocaml-dev libllvm9 llvm-9 llvm-9-dev llvm-9-doc \
+    llvm-9-examples llvm-9-runtime
+RUN apt-get install -y  clang-9 clang-tools-9 clang-9-doc libclang-common-9-dev \
+    libclang-9-dev libclang1-9 clang-format-9 python-clang-9 clangd-9
+RUN apt-get install -y lldb-9 lld-9
+RUN rm -f /usr/bin/clang && ln -s /usr/lib/llvm-9/bin/clang /usr/bin/clang &&\
     rm -f /usr/bin/clang++ && ln -s /usr/lib/llvm-9/bin/clang++ /usr/bin/clang++
 
 # halide
@@ -90,9 +96,35 @@ RUN wget http://tamacom.com/global/global-6.6.3.tar.gz &&\
     cp /usr/local/share/gtags/gtags.conf /etc/
 # RUN pip install Pygments
 
-RUN add-apt-repository ppa:kelleyk/emacs
-RUN apt-get update && apt-get install emacs26 -y
-RUN apt-get update && apt-get install locate silversearcher-ag -y
+# emacs settings
+RUN apt-get update \
+	&& apt-get upgrade -y \
+	&& apt-get install -y autoconf texinfo libgnutls28-dev libxml2-dev libgtk-3-dev libtiff-dev libgif-dev libpng-dev libxpm-dev libncurses5-dev libjansson-dev \
+	&& git clone --depth=1 git://git.sv.gnu.org/emacs.git /emacs \
+	&& cd /emacs && ./autogen.sh \
+	&& ./configure --with-modules --with-json \
+	&& make -j4 && make install
+
+# lsp server
+# c++ (ccls)
+WORKDIR /opt
+RUN git clone --depth=1 --recursive https://github.com/MaskRay/ccls && cd ccls &&\
+    cmake -H. -BRelease -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=clang++-9 &&\
+    cmake --build Release && ln -s /opt/ccls/Release/ccls /usr/local/bin/
+# python (python language server)
+RUN curl -kL https://bootstrap.pypa.io/get-pip.py | python3
+RUN pip3 install jedi 'python-language-server[all]'
+# Cmake
+RUN pip3 install cmake-language-server
+# NPM installed language servers
+RUN apt-get install -y npm \
+	&& npm i -g \
+	bash-language-server \
+	vscode-css-languageserver-bin \
+	vscode-html-languageserver-bin \
+	dockerfile-language-server-nodejs \
+	typescript-language-server \
+	typescript
 
 # display
 ARG display

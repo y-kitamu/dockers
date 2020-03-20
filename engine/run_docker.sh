@@ -3,13 +3,16 @@
 # TODO : (future) docker-compose で書きなおす (現状だと --gpus がdocker-compose 未対応)
 
 source_dir=$(cd $(dirname $0); pwd)
+image_name="cpp_engine"
 container_name="cpp_engine"
 hostname="cpp-engine"
 user=`id -n -u`
 
-if [ "`docker container ls -a | grep ${container_name}`" ]; then
-    docker stop ${container_name}
-    docker rm ${container_name}
+container_id=`docker ps -a --filter ancestor=${image_name} --format "{{.ID}}"`
+if [ -n "${container_id}" ]; then
+    docker stop ${container_id}
+    docker rm ${container_id}
+    unset container_id
 fi
 
 docker run -t -i -p 33330:22 --name ${container_name} --hostname ${hostname} --gpus all \
