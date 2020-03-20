@@ -126,6 +126,11 @@ RUN apt-get install -y npm \
 	typescript-language-server \
 	typescript
 
+# emacs required libraries
+RUN apt-get update \
+    && apt-get update -y\
+    && apt-get install silversearcher-ag -y
+
 # display
 ARG display
 RUN echo "export DISPLAY=${display}" >> /etc/profile
