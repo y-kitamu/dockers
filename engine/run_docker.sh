@@ -15,7 +15,8 @@ if [ -n "${container_id}" ]; then
     unset container_id
 fi
 
-docker run -t -i -p 33330:22 --name ${container_name} --hostname ${hostname} --gpus all \
+docker run -t -i --cap-add SYS_PTRACE --security-opt "seccomp=unconfined" \
+       -p 33330:22 --name ${container_name} --hostname ${hostname} --gpus all \
        -v /tmp/.X11-unix:/tmp/.X11-unix  \
        -v /etc/localtime:/etc/localtime  \
        -v /etc/passwd:/etc/passwd \

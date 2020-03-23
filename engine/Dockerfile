@@ -130,6 +130,9 @@ RUN apt-get install -y npm \
 RUN apt-get update \
     && apt-get update -y\
     && apt-get install silversearcher-ag -y
+# dap-mode
+# RUN pip3 install "ptvsd>=4.2"
+
 
 # display
 ARG display
