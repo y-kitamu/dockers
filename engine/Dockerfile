@@ -1,4 +1,4 @@
-FROM nvidia/cudagl:10.2-runtime-ubuntu18.04
+FROM cpp_engine_base
 
 MAINTAINER y-kitamu ymyk6602@gmail.com
 
@@ -133,6 +133,9 @@ RUN apt-get update \
 # dap-mode
 # RUN pip3 install "ptvsd>=4.2"
 
+# utility
+RUN apt-get update && apt-get upgrade -y &&\
+    apt-get install -y locate 
 
 # display
 ARG display

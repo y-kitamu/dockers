@@ -1,0 +1,3 @@
+FROM nvidia/cudagl:10.2-runtime-ubuntu18.04
+
+MAINTAINER y-kitamu ymyk6602@gmail.com
