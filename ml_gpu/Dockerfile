@@ -34,7 +34,6 @@ RUN jupyter serverextension enable --py jupyterlab --sys-prefix
 
 # jupyter extensions
 RUN jupyter labextension install jupyterlab-emacskeys 
-# RUN jupyter labextension install @oriolmirosa/jupyterlab_materialdarker
 # lsp
 RUN pip install jupyter-lsp
 RUN jupyter labextension install @krassowski/jupyterlab-lsp  # for JupyterLab 2.x
