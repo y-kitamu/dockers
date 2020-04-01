@@ -1,4 +1,4 @@
-FROM nvidia/cuda:10.1-cudnn7-runtime-ubuntu18.04
+FROM tensorflow/tensorflow:nightly-gpu-py3-jupyter
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -7,10 +7,7 @@ RUN useradd -m ${user} &&\
     usermod -aG sudo ${user}
 
 RUN apt-get update && apt-get upgrade -y &&\
-    apt-get install python3.8-dev python3-pip python3-tk -y
-
-RUN apt-get update && apt-get upgrade -y &&\
-    apt-get install sudo git nodejs npm curl libsm6 libxext6 libxrender-dev -y
+    apt-get install sudo git nodejs npm libsm6 libxext6 libxrender-dev -y
 
 RUN npm install n -g && n stable
 RUN apt purge -y nodejs npm
@@ -21,18 +18,25 @@ RUN pip3 install -U pip
 RUN pip3 install -r /tmp/requirements.txt && rm -rf /tmp/requirements.txt
 
 # jupyter lab
+RUN pip3 install jupyterlab widgetsnbextension
 RUN jupyter serverextension enable --py jupyterlab --sys-prefix
-# emacs keybind
-RUN jupyter labextension install jupyterlab-emacskeys
 # lsp
+RUN pip3 install jupyter-lsp
 RUN jupyter labextension install @krassowski/jupyterlab-lsp  # for JupyterLab 2.x
-RUN pip install python-language-server[all]
+RUN pip3 install python-language-server[all]
 # variable inspector
 RUN jupyter labextension install @lckr/jupyterlab_variableinspector
 # GPU dashboard
-RUN pip install jupyterlab-nvdashboard
-RUN jupyter labextension install jupyterlab-nvdashboard
+# RUN pip3 install jupyterlab-nvdashboard
+# RUN jupyter labextension install jupyterlab-nvdashboard
+# tensorboard
+RUN pip3 install jupyter-tensorboard
+RUN jupyter labextension install jupyterlab_tensorboard
+# emacs keybind
+RUN jupyter labextension install jupyterlab-emacskeys
 
 RUN jupyter lab build
 
+WORKDIR /home/${user}/work
 USER ${user}
+#RUN jupyter tensorboard enable --user
