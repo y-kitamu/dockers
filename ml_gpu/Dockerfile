@@ -1,43 +1,37 @@
-FROM nvidia/cuda:10.0-cudnn7-runtime-ubuntu18.04
+FROM nvidia/cuda:10.1-cudnn7-runtime-ubuntu18.04
+
+ENV DEBIAN_FRONTEND=noninteractive
 
 ARG user
 RUN useradd -m ${user} &&\
     usermod -aG sudo ${user}
 
 RUN apt-get update && apt-get upgrade -y &&\
-    apt-get install python3-dev python3-pip -y
+    apt-get install python3.8-dev python3-pip python3-tk -y
 
-RUN apt-get update && apt-get upgrade -y && apt-get install sudo git -y
-RUN apt-get install libsm6 libxext6 libxrender-dev -y
+RUN apt-get update && apt-get upgrade -y &&\
+    apt-get install sudo git nodejs npm curl libsm6 libxext6 libxrender-dev -y
 
-RUN pip3 install -U pip
-# python data science, machine learning or deep learning libraries
-RUN pip3 install numpy pandas matplotlib seaborn scikit-learn scikit-image opencv-python
-RUN pip3 install tensorflow tensorflow-gpu pandas-ml
-RUN pip3 install tensorflow-hub tensorflow-datasets tensorflow-text
-RUN pip3 install -q git+https://github.com/tensorflow/docs
-RUN pip3 install pillow plotly
-RUN pip3 install torch torchvision
-
-# for gui app
-ENV DEBIAN_FRONTEND=noninteractive
-RUN apt-get install python3-tk -y
-
-# jupyter
-RUN apt install -y nodejs npm curl
 RUN npm install n -g && n stable
 RUN apt purge -y nodejs npm
 
-RUN pip3 install jupyter
-RUN pip3 install jupyterlab widgetsnbextension
-RUN jupyter serverextension enable --py jupyterlab --sys-prefix
+# installl python libraries
+ADD requirements.txt /tmp/requirements.txt
+RUN pip3 install -U pip
+RUN pip3 install -r /tmp/requirements.txt && rm -rf /tmp/requirements.txt
 
-# jupyter extensions
-RUN jupyter labextension install jupyterlab-emacskeys 
+# jupyter lab
+RUN jupyter serverextension enable --py jupyterlab --sys-prefix
+# emacs keybind
+RUN jupyter labextension install jupyterlab-emacskeys
 # lsp
-RUN pip install jupyter-lsp
 RUN jupyter labextension install @krassowski/jupyterlab-lsp  # for JupyterLab 2.x
 RUN pip install python-language-server[all]
+# variable inspector
+RUN jupyter labextension install @lckr/jupyterlab_variableinspector
+# GPU dashboard
+RUN pip install jupyterlab-nvdashboard
+RUN jupyter labextension install jupyterlab-nvdashboard
 
 RUN jupyter lab build
 
