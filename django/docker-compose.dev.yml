@@ -5,7 +5,7 @@ services:
     env_file: .env
     build:
       context: ./django/
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
       args:
         USER: ${USER}
         APP_PATH: ${HOME}/${DJANGO_APP_PATH}
@@ -17,6 +17,7 @@ services:
       - /etc/group:/etc/group
       # - ${HOME}/${DJANGO_APP_PATH}:${HOME}/${DJANGO_APP_PATH}
       - ${HOME}/work:${HOME}/work
+      - ${HOME}/dataset:${HOME}/dataset
       - ./config:${HOME}/config
       - staticdata:/opt/static
     environment:
@@ -36,11 +37,13 @@ services:
     ports:
       - "${POSTGRES_PORT}:5432"
     volumes:
-      - dbdata:/var/lib/postgresql/data
+      # - dbdata:/var/lib/postgresql/data
+      - dbdata2:/var/lib/postgresql/data
     restart: always
     # environment:
     #   POSTGRES_PASSWORD: 
 
 volumes:
   dbdata:
+  dbdata2:
   staticdata:

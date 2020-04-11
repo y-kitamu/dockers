@@ -2,3 +2,6 @@ Django
 gunicorn
 psycopg2
 psycopg2-binary
+python-language-server[all]
+pandas
+opencv-python
