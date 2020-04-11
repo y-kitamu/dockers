@@ -59,6 +59,23 @@
                 "Accel Alt S"
             ],
             "selector": "body",
-        },       
+        }, 
+                {
+            "command": "lsp:jump-to-definition-file_editor",
+            "keys": [
+                "Accel B"
+            ],
+            "selector": ".jp-FileEditor",
+            "disabled": true 
+        },
+        {
+            "command": "lsp:jump-to-definition-notebook",
+            "keys": [
+                "Accel B"
+            ],
+            "selector": ".jp-Notebook .jp-CodeCell",
+            "disabled": true
+        },
+
    ]
 }

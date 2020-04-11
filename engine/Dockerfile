@@ -135,7 +135,7 @@ RUN apt-get update \
 
 # utility
 RUN apt-get update && apt-get upgrade -y &&\
-    apt-get install -y locate 
+    apt-get install -y locate gnuplot
 
 # display
 ARG display
