@@ -28,7 +28,7 @@ RUN git clone https://github.com/Kitware/CMake.git cmake &&\
     ./bootstrap &&\
     make && make install
 
-# python set up 
+# python set up
 RUN apt-get install python3-distutils -y &&\
     rm -rf /usr/bin/python && ln -s /usr/bin/python3 /usr/bin/python &&\
     apt-get update && apt-get install curl -y &&\
@@ -51,7 +51,7 @@ RUN apt-get install \
 
 WORKDIR /
 
-# opengl 
+# opengl
 RUN apt-get install libglu1-mesa-dev mesa-common-dev mesa-utils freeglut3-dev libglfw3-dev libglfw3 -y
 
 # clang & llvm : https://apt.llvm.org
@@ -64,7 +64,8 @@ RUN apt-get install -y  clang-9 clang-tools-9 clang-9-doc libclang-common-9-dev 
     libclang-9-dev libclang1-9 clang-format-9 python-clang-9 clangd-9
 RUN apt-get install -y lldb-9 lld-9
 RUN rm -f /usr/bin/clang && ln -s /usr/lib/llvm-9/bin/clang /usr/bin/clang &&\
-    rm -f /usr/bin/clang++ && ln -s /usr/lib/llvm-9/bin/clang++ /usr/bin/clang++
+    rm -f /usr/bin/clang++ && ln -s /usr/lib/llvm-9/bin/clang++ /usr/bin/clang++ &&\
+    rm -f /usr/bin/lldb && ln -s /usr/bin/lldb-9 /usr/bin/lldb
 
 # halide
 WORKDIR /opt
