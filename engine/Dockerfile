@@ -55,35 +55,39 @@ WORKDIR /
 RUN apt-get install libglu1-mesa-dev mesa-common-dev mesa-utils freeglut3-dev libglfw3-dev libglfw3 -y
 
 # clang & llvm : https://apt.llvm.org
+ARG LLVM_VERSION=10
 RUN apt-get update && apt-get install -y lsb-release software-properties-common && apt-get clean all
-RUN wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add -
-RUN apt-get update &&\
-    apt-get install -y libllvm-9-ocaml-dev libllvm9 llvm-9 llvm-9-dev llvm-9-doc \
-    llvm-9-examples llvm-9-runtime
-RUN apt-get install -y  clang-9 clang-tools-9 clang-9-doc libclang-common-9-dev \
-    libclang-9-dev libclang1-9 clang-format-9 python-clang-9 clangd-9
-RUN apt-get install -y lldb-9 lld-9
-RUN rm -f /usr/bin/clang && ln -s /usr/lib/llvm-9/bin/clang /usr/bin/clang &&\
-    rm -f /usr/bin/clang++ && ln -s /usr/lib/llvm-9/bin/clang++ /usr/bin/clang++ &&\
-    rm -f /usr/bin/lldb && ln -s /usr/bin/lldb-9 /usr/bin/lldb
+WORKDIR /opt
+RUN wget https://apt.llvm.org/llvm.sh && chmod +x llvm.sh && ./llvm.sh ${LLVM_VERSION}
+
+RUN rm -f /usr/bin/clang && ln -s /usr/lib/llvm-${LLVM_VERSION}/bin/clang /usr/bin/clang &&\
+    rm -f /usr/bin/clang++ && ln -s /usr/lib/llvm-${LLVM_VERSION}/bin/clang++ /usr/bin/clang++ &&\
+    rm -f /usr/bin/lldb && ln -s /usr/bin/lldb-${LLVM_VERSION} /usr/bin/lldb &&\
+    rm -f /usr/bin/llvm-config && ln -s /usr/bin/llvm-config-${LLVM_VERSION} /usr/bin/llvm-config
 
 # halide
 WORKDIR /opt
 RUN git clone https://github.com/halide/Halide.git Halide &&\
     cd Halide && mkdir build && cd build &&\
-    export LLVM_CONFIG=/usr/bin/llvm-config-9 &&\
+    export LLVM_CONFIG=/usr/bin/llvm-config &&\
     make -f ../Makefile -j 4 &&\
     cp -r include /usr/local/include/halide &&\
     ln -s /opt/Halide/build/bin/libHalide.so /usr/local/lib/libHalide.so
 
 # boost
-RUN apt-get install -y libboost-all-dev
+RUN apt-get update && apt-get upgrade -y && apt-get install -y libboost-all-dev
 
 # install c++ profiler tools (gperftools, valgrind, kcachegrind)
 RUN apt-get install -y google-perftools libgoogle-perftools-dev valgrind kcachegrind
 
 # install zenity
 RUN apt-get update && apt-get install -y zenity
+
+# Google Test
+WORKDIR /opt
+RUN git clone https://github.com/google/googletest.git &&\
+    cd googletest && mkdir build && cd build &&\
+    cmake ../ && make -j4 && make install
 
 # global(GTAGS), Pygments
 RUN apt-get install ctags python-pygments libncurses-dev -y
@@ -109,8 +113,11 @@ RUN apt-get update \
 # lsp server
 # c++ (ccls)
 WORKDIR /opt
+RUN apt-get install -y libllvm-${LLVM_VERSION}-ocaml-dev llvm-${LLVM_VERSION}-doc llvm-${LLVM_VERSION}-examples
+RUN apt-get install -y  clang-tools-${LLVM_VERSION} clang-${LLVM_VERSION}-doc \
+    libclang-${LLVM_VERSION}-dev clang-format-${LLVM_VERSION} python3-clang-${LLVM_VERSION}
 RUN git clone --depth=1 --recursive https://github.com/MaskRay/ccls && cd ccls &&\
-    cmake -H. -BRelease -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=clang++-9 &&\
+    cmake -H. -BRelease -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=clang++ &&\
     cmake --build Release && ln -s /opt/ccls/Release/ccls /usr/local/bin/
 # python (python language server)
 RUN curl -kL https://bootstrap.pypa.io/get-pip.py | python3
