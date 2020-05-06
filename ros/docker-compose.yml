@@ -2,5 +2,22 @@ version: "3"
 
 services:
   ros:
-    image: osrf/ros2:nightly-rmw
-    
+    hostname: ros2-docker
+    build:
+      context: ./
+      args:
+        user: ${USER}
+        display: ${DISPLAY}
+    ports:
+      - "33334:22"
+    volumes:
+      - /etc/passwd:/etc/passwd
+      - /etc/shadow:/etc/shadow
+      - /etc/group:/etc/group
+      - ${HOME}/work:${HOME}/work
+      - ${HOME}/dotfiles:${HOME}/dotfiles
+      - ./entrypoint.sh:${HOME}/config/entrypoint.sh
+    environment:
+      - USER_NAME=${USER}
+    entrypoint: ${HOME}/config/entrypoint.sh
+    restart: always
