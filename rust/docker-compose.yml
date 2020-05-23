@@ -1,0 +1,20 @@
+version: "3.7"
+
+services:
+  rust:
+    hostname: rust_docker_image
+    build:
+      context: .
+      args:
+        user: ${USER}
+    ports:
+      - "33333:22"
+    volumes:
+      - /etc/passwd:/etc/passwd
+      - /etc/shadow:/etc/shadow
+      - /etc/group:/etc/group
+      - ${HOME}/work:${HOME}/work
+      - ${HOME}/dotfiles:${HOME}/dotfiles
+      - ./config:${HOME}/config
+    entrypoint: ${HOME}/config/entrypoint.sh
+    restart: always
