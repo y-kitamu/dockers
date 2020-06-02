@@ -1,3 +1,9 @@
 scikit-learn
 opencv-python
 chainer
+cupy-cuda101
+numpy
+pandas
+scipy
+torch
+torchvision
