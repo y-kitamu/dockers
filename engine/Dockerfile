@@ -143,7 +143,16 @@ RUN apt-get update \
 
 # utility
 RUN apt-get update && apt-get upgrade -y &&\
-    apt-get install -y locate gnuplot
+    apt-get install -y locate gnuplot openjdk-11-jre
+
+# libtorch
+WORKDIR /opt
+RUN apt-get update && apt-get upgrade -y && apt-get install -y unzip
+RUN wget https://download.pytorch.org/libtorch/nightly/cu102/libtorch-cxx11-abi-shared-with-deps-latest.zip && unzip libtorch-cxx11-abi-shared-with-deps-latest.zip
+RUN cp -r libtorch/include/* /usr/local/include/ &&\
+    cp -r libtorch/lib/* /usr/local/lib/ &&\
+    cp -r libtorch/share/* /usr/local/share/ &&\
+    ldconfig
 
 # display
 ARG display

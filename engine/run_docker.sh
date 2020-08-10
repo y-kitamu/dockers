@@ -21,7 +21,7 @@ OPTS=""
 if [ -n "${has_gpu}" ]; then
     OPTS="${OPTS} --gpus all"
 fi
-    
+
 docker run -t -i --cap-add SYS_PTRACE --security-opt "seccomp=unconfined" \
        -p 33330:22 --name ${container_name} --hostname ${hostname} ${OPTS} \
        -v /tmp/.X11-unix:/tmp/.X11-unix  \
@@ -30,6 +30,7 @@ docker run -t -i --cap-add SYS_PTRACE --security-opt "seccomp=unconfined" \
        -v /etc/shadow:/etc/shadow \
        -v /etc/group:/etc/group \
        -v ~/work:/home/${USER}/work \
+       -v ~/AndroidStudioProjects:/home/${USER}/AndroidStudioProjects \
        -v ~/dotfiles:/home/${USER}/dotfiles \
        -v ${source_dir}/config:/home/${USER}/config \
        -v ~/.gitconfig:/home/${USER}/.gitconfig\
