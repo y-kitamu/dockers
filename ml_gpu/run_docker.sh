@@ -10,6 +10,7 @@ if [ "`docker container ls -a | grep ${container_name}`" ]; then
 fi
 
 docker run -t -i -p 4000:8888 -p 6006:6006 -p 6007:6007 --name ${container_name} --gpus all \
+       --shm-size=2g \
        -v ${source_dir}/config:/home/${user}/config/ \
        -v ${source_dir}/config/.jupyter:/home/${user}/.jupyter \
        -v /home/${user}/work:/home/${user}/work \
