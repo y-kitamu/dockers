@@ -1,4 +1,5 @@
-FROM osrf/ros2:nightly-rmw
+ARG base_container
+FROM ${base_container}
 
 MAINTAINER y-kitamu ymyk6602@gmail.com
 

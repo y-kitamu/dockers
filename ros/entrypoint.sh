@@ -5,4 +5,6 @@ if [ -f /home/${USER_NAME}/dotfiles/install.sh ]; then
 fi
 unset USER_NAME
 
+source "/opt/ros/$ROS_DISTRO/setup.bash"
+
 /usr/sbin/sshd -D

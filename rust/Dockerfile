@@ -30,3 +30,7 @@ RUN cd /home/${user} &&\
     /home/${user}/dotfiles/install.sh
 
 USER root
+
+RUN apt-get update &&\
+    apt-get upgrade -y &&\
+    apt-get install sudo gcc g++ build-essential ninja-build -y

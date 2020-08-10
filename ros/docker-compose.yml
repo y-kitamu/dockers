@@ -2,10 +2,34 @@ version: "3"
 
 services:
   ros:
+    hostname: ros-docker
+    build:
+      context: ./
+      args:
+        base_container: "ros:latest"
+        user: ${USER}
+        display: ${DISPLAY}
+    ports:
+      - "33335:22"
+    volumes:
+      - /etc/passwd:/etc/passwd
+      - /etc/shadow:/etc/shadow
+      - /etc/group:/etc/group
+      - ${HOME}/work:${HOME}/work
+      - ${HOME}/dotfiles:${HOME}/dotfiles
+      - ./entrypoint.sh:${HOME}/config/entrypoint.sh
+    environment:
+      - USER_NAME=${USER}
+      - ROS_DISTRO=melodic
+    entrypoint: ${HOME}/config/entrypoint.sh
+
+
+  ros2:
     hostname: ros2-docker
     build:
       context: ./
       args:
+        base_container: "osrf/ros2:nightly-rmw"
         user: ${USER}
         display: ${DISPLAY}
     ports:
@@ -19,5 +43,6 @@ services:
       - ./entrypoint.sh:${HOME}/config/entrypoint.sh
     environment:
       - USER_NAME=${USER}
+      - ROS_DISTRO=foxy
     entrypoint: ${HOME}/config/entrypoint.sh
     restart: always
