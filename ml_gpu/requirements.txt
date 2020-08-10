@@ -7,3 +7,12 @@ pandas
 scipy
 torch
 torchvision
+chainercv
+nbformat
+seaborn
+tqdm
+efficientnet_pytorch
+statsmodels
+bs4
+selenium
+chromedriver-binary

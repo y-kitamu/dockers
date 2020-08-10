@@ -40,3 +40,9 @@ RUN jupyter lab build
 WORKDIR /home/${user}/work
 USER ${user}
 #RUN jupyter tensorboard enable --user
+
+# chrome driver
+RUN curl https://dl.google.com/linux/linux_signing_key.pub | apt-key add -
+RUN echo 'deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main' | tee /etc/apt/sources.list.d/google-chrome.list
+RUN apt-get update
+RUN apt-get install google-chrome-stable -y
