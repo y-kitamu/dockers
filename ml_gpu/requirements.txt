@@ -16,3 +16,5 @@ statsmodels
 bs4
 selenium
 chromedriver-binary
+tfds-nightly
+yapf

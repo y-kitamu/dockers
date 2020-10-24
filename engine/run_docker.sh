@@ -30,7 +30,9 @@ docker run -t -i --cap-add SYS_PTRACE --security-opt "seccomp=unconfined" \
        -v /etc/shadow:/etc/shadow \
        -v /etc/group:/etc/group \
        -v ~/work:/home/${USER}/work \
+       -v ~/dataset:/home/${USER}/dataset \
        -v ~/AndroidStudioProjects:/home/${USER}/AndroidStudioProjects \
+       -v ~/Android:/home/${USER}/Android \
        -v ~/dotfiles:/home/${USER}/dotfiles \
        -v ${source_dir}/config:/home/${USER}/config \
        -v ~/.gitconfig:/home/${USER}/.gitconfig\

@@ -137,7 +137,7 @@ RUN apt-get install -y npm \
 # emacs required libraries
 RUN apt-get update \
     && apt-get update -y\
-    && apt-get install silversearcher-ag -y
+    && apt-get install silversearcher-ag cmigemo -y
 # dap-mode
 # RUN pip3 install "ptvsd>=4.2"
 
@@ -145,6 +145,7 @@ RUN apt-get update \
 RUN apt-get update && apt-get upgrade -y &&\
     apt-get install -y locate gnuplot openjdk-11-jre
 
+# TODO: move to Dockerfile.gpu
 # libtorch
 WORKDIR /opt
 RUN apt-get update && apt-get upgrade -y && apt-get install -y unzip
@@ -153,6 +154,13 @@ RUN cp -r libtorch/include/* /usr/local/include/ &&\
     cp -r libtorch/lib/* /usr/local/lib/ &&\
     cp -r libtorch/share/* /usr/local/share/ &&\
     ldconfig
+
+WORKDIR /opt
+ADD libs /opt/libs
+RUN cd libs &&\
+    dpkg -i libcudnn8_8.0.2.39-1+cuda10.2_amd64.deb &&\
+    dpkg -i libcudnn8-dev_8.0.2.39-1+cuda10.2_amd64.deb &&\
+    dpkg -i libcudnn8-doc_8.0.2.39-1+cuda10.2_amd64.deb
 
 # display
 ARG display

@@ -1,4 +1,4 @@
-FROM jenkins:latest
+FROM jenkinsci:blueocean
 
 USER root
 
@@ -18,7 +18,7 @@ RUN mkdir $ANDROID_HOME && \
     unzip -d $ANDROID_HOME $SDK_TOOL_VERSION.zip &&\
     rm -rf $SDK_TOOL_VERSION.zip
 
-USER jenkins
+nUSER jenkins
 RUN mkdir ~/.android &&\
     touch ~/.android/repositories.cfg
 RUN yes | sdkmanager --licenses
