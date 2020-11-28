@@ -37,12 +37,39 @@ RUN jupyter labextension install jupyterlab-emacskeys
 
 RUN jupyter lab build
 
-WORKDIR /home/${user}/work
-USER ${user}
-#RUN jupyter tensorboard enable --user
-
 # chrome driver
 RUN curl https://dl.google.com/linux/linux_signing_key.pub | apt-key add -
 RUN echo 'deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main' | tee /etc/apt/sources.list.d/google-chrome.list
 RUN apt-get update
 RUN apt-get install google-chrome-stable -y
+
+ADD .style.yapf /home/${user}/
+
+# bugfix of python library
+RUN sed -i \
+    -e '/    def _read_message(self):/i\            except AssertionError:' \
+    -e '/    def _read_message(self):/i\                log.exception("AssertionError encountered while consuming message in stream reader. %s", request_str)' \
+    -e '/    def _read_message(self):/i\                continue' \
+    -e '/    def _read_message(self):/i\\' \
+    `python -c "import site; print (site.getsitepackages()[0])"`/pyls_jsonrpc/streams.py
+#RUN cat `python -c "import site; print (site.getsitepackages()[0])"`/pyls_jsonrpc/streams.py
+
+RUN rm /usr/local/cuda && ln -s /usr/local/cuda-10.2 /usr/local/cuda
+
+#
+RUN pip3 install git+https://github.com/y-kitamu/mython
+
+# make sure to install latest tensorflow
+RUN pip3 install --upgrade pip && pip3 install tensorflow-gpu
+
+# bugfix
+RUN sed -i \
+    -e '/log = logging.getLogger(__name__)/alog.setLevel(logging.ERROR)' \
+    `python -c "import site; print (site.getsitepackages()[0])"`/pyls_jsonrpc/streams.py
+RUN sed -i \
+    -e '/log = logging.getLogger(__name__)/alog.setLevel(logging.ERROR)' \
+    `python -c "import site; print (site.getsitepackages()[0])"`/pyls_jsonrpc/endpoint.py
+
+WORKDIR /home/${user}/work
+USER ${user}
+#RUN jupyter tensorboard enable --user

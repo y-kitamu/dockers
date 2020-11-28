@@ -1,0 +1,58 @@
+# ref : https://github.com/ymym3412/mlflow-docker-compose/blob/master/docker-compose.yaml
+version: '3'
+services:
+  waitfordb:
+    image: dadarek/wait-for-dependencies
+    depends_on:
+      - postgresql
+    command: postgresql:5432
+
+  postgresql:
+    image: postgres:latest
+    expose:
+      - 5432
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_INITDB_ARGS: "--encoding=UTF-8"
+    hostname: postgresql
+    restart: always
+
+  mlflow:
+    build: .
+    container_name: mlflow
+    # expose:
+    #   - 80
+    #   - 443
+    ports:
+      - 5000:80
+    depends_on:
+      - postgresql
+      - waitfordb
+    volumes:
+      - ${CREDENTIALS_PATH}:/opt/credentials
+    environment:
+      DB_URI: postgresql+psycopg2://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgresql:5432/${DB_NAME}
+      VIRTUAL_HOST: ${HOST}
+      VIRTUAL_PORT: 80
+      LETSENCRYPT_HOST: ${HOST}
+      LETSENCRYPT_EMAIL: example@gmail.com
+      AWS_S3_BUCKET: ${AWS_S3_BUCKET}
+      AWS_CREDENTIALS: /opt/credentials
+
+  # nginx:
+  #   image: nginx:latest
+  #   ports:
+  #     - "33321:80"
+  #   volumes:
+  #     - ./nginx.conf:/etc/nginx/nginx.conf
+  #   depends_on:
+  #     - mlflow
+
+volumes:
+  certs:
+  html:
+  vhost:
+  dhparam:
+  conf:

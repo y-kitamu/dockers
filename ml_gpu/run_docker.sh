@@ -20,4 +20,6 @@ docker run -t -i -p 4000:8888 -p 6006:6006 -p 6007:6007 --name ${container_name}
        -v /etc/shadow:/etc/shadow \
        -v /etc/group:/etc/group \
        -e DISPLAY=${DISPLAY} \
+       --cpuset-cpus 0-8 \
+       --memory 12000m \
        -d --restart=always ml_gpu_jupyter /home/${user}/config/entrypoint.sh
