@@ -4,8 +4,10 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
-mkdir ~/.aws/
-cp $AWS_CREDENTIALS ~/.aws/credentials
+if [ ! -e ${HOME}/.aws ]; then
+    mkdir ${HOME}/.aws/
+fi
+cp $AWS_CREDENTIALS ${HOME}/.aws/credentials
 
 mlflow db upgrade $DB_URI
 
