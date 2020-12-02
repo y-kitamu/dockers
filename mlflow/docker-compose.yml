@@ -33,15 +33,16 @@ services:
       - postgresql
       - waitfordb
     volumes:
-      - ${CREDENTIALS_PATH}:/opt/credentials
+      - artifacts:/opt/artifacts
     environment:
       DB_URI: postgresql+psycopg2://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgresql:5432/${DB_NAME}
       VIRTUAL_HOST: ${HOST}
       VIRTUAL_PORT: 80
       LETSENCRYPT_HOST: ${HOST}
       LETSENCRYPT_EMAIL: example@gmail.com
-      AWS_S3_BUCKET: ${AWS_S3_BUCKET}
-      AWS_CREDENTIALS: /opt/credentials
+      ARTIFACTS_PATH: /opt/artifacts
+      # AWS_S3_BUCKET: ${AWS_S3_BUCKET}
+      # AWS_CREDENTIALS: /opt/credentials
 
   # nginx:
   #   image: nginx:latest
@@ -53,3 +54,4 @@ services:
   #     - mlflow
 volumes:
   mlflowdb:
+  artifacts:
