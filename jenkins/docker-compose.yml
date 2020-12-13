@@ -1,10 +1,18 @@
 version: "3.7"
 
 services:
-  jenkinsci:
+  jenkins:
     build:
       context: .
+      args:
+        DOCKER_GROUP_ID: 998  # set host machine's docker group id
     ports:
       - 8080:8080
       - 50000:50000
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - jenkins_home:/var/jenkins_home
+      - ${HOME}/work:/projects
     restart: always
+volumes:
+  jenkins_home:
