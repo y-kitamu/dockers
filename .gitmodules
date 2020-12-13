@@ -25,7 +25,3 @@
 [submodule "django"]
 	path = django
 	url = git@github.com:y-kitamu/stock_portfolio.git
-[submodule "growi"]
-	path = growi
-	url = https://github.com/weseek/growi.git
-	branch = master
