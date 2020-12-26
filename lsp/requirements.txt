@@ -1,0 +1,9 @@
+numpy
+matplotlib
+pandas
+pytest
+tensorflow
+hydra-core
+scikit-learn
+scipy
+opencv-python
