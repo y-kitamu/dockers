@@ -7,3 +7,5 @@ hydra-core
 scikit-learn
 scipy
 opencv-python
+tensorflow-addons
+numba
