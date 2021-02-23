@@ -1,4 +1,4 @@
-FROM tensorflow/tensorflow:nightly-gpu-py3-jupyter
+FROM tensorflow/tensorflow:latest-gpu
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -7,7 +7,7 @@ RUN useradd -m ${user} &&\
     usermod -aG sudo ${user}
 
 RUN apt-get update && apt-get upgrade -y &&\
-    apt-get install sudo git nodejs npm libsm6 libxext6 libxrender-dev -y
+    apt-get install sudo git nodejs npm libsm6 libxext6 libxrender-dev libgl1-mesa-dev -y
 
 RUN npm install n -g && n stable
 RUN apt purge -y nodejs npm
@@ -35,7 +35,7 @@ RUN jupyter lab build
 
 ADD .style.yapf /home/${user}/
 
-RUN rm /usr/local/cuda && ln -s /usr/local/cuda-10.2 /usr/local/cuda
+# RUN rm /usr/local/cuda && ln -s /usr/local/cuda-10.2 /usr/local/cuda
 # make sure to install latest tensorflow
 RUN pip3 install --upgrade pip && pip3 install tensorflow-gpu
 
