@@ -13,7 +13,6 @@ RUN sed -ri 's/UsePAM yes/#UsePAM yes/g' /etc/ssh/sshd_config
 
 
 RUN apt-get update && apt-get upgrade -y && apt-get install git curl -y
-
 USER ${user}
 SHELL ["/bin/bash", "-c"]
 RUN cd /home/${user} &&\
@@ -22,15 +21,9 @@ RUN cd /home/${user} &&\
     ./rust.sh -y &&\
     rm -rf ./rust.sh &&\
     source /home/${user}/.cargo/env &&\
-    rustup update
+    /home/${user}/.cargo/bin/rustup update
 
-USER ${user}
-RUN cd /home/${user} &&\
-    git clone https://github.com/y-kitamu/dotfiles.git &&\
-    /home/${user}/dotfiles/install.sh
+RUN rustup component add rls
+RUN cargo install cargo-edit
 
 USER root
-
-RUN apt-get update &&\
-    apt-get upgrade -y &&\
-    apt-get install sudo gcc g++ build-essential ninja-build -y

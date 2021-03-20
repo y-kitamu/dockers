@@ -18,7 +18,11 @@ RUN sed -ri 's/UsePAM yes/#UsePAM yes/g' /etc/ssh/sshd_config
 # gcc, g++, build-essential, git
 RUN apt-get update &&\
     apt-get upgrade -y &&\
-    apt-get install sudo gcc g++ build-essential git ninja-build openssl libssl-dev -y
+    apt-get install sudo build-essential git ninja-build openssl libssl-dev -y
+
+RUN add-apt-repository ppa:ubuntu-toolchain-r/test &&\
+    apt-get update &&\
+    apt-get install gcc-10 g++-10 -y
 
 WORKDIR /opt
 
@@ -55,7 +59,7 @@ WORKDIR /
 RUN apt-get install libglu1-mesa-dev mesa-common-dev mesa-utils freeglut3-dev libglfw3-dev libglfw3 -y
 
 # clang & llvm : https://apt.llvm.org
-ARG LLVM_VERSION=10
+ARG LLVM_VERSION=11
 RUN apt-get update && apt-get install -y lsb-release software-properties-common && apt-get clean all
 WORKDIR /opt
 RUN wget https://apt.llvm.org/llvm.sh && chmod +x llvm.sh && ./llvm.sh ${LLVM_VERSION}
@@ -154,13 +158,6 @@ RUN cp -r libtorch/include/* /usr/local/include/ &&\
     cp -r libtorch/lib/* /usr/local/lib/ &&\
     cp -r libtorch/share/* /usr/local/share/ &&\
     ldconfig
-
-WORKDIR /opt
-ADD libs /opt/libs
-RUN cd libs &&\
-    dpkg -i libcudnn8_8.0.2.39-1+cuda10.2_amd64.deb &&\
-    dpkg -i libcudnn8-dev_8.0.2.39-1+cuda10.2_amd64.deb &&\
-    dpkg -i libcudnn8-doc_8.0.2.39-1+cuda10.2_amd64.deb
 
 # display
 ARG display

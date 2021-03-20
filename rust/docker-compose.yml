@@ -2,19 +2,21 @@ version: "3.7"
 
 services:
   rust:
-    hostname: rust_docker_image
+    hostname: rust_docker
     build:
       context: .
       args:
         user: ${USER}
     ports:
-      - "33333:22"
+      - "33333:22" # for ssh
+      - "5000:5000" # for many objectives
     volumes:
       - /etc/passwd:/etc/passwd
       - /etc/shadow:/etc/shadow
       - /etc/group:/etc/group
       - ${HOME}/work:${HOME}/work
       - ${HOME}/dotfiles:${HOME}/dotfiles
+      - ${HOME}/./bashrc:${HOME}/.bashrc
       - ./config:${HOME}/config
     entrypoint: ${HOME}/config/entrypoint.sh
     restart: always
