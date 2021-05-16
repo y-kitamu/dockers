@@ -20,7 +20,8 @@ RUN apt-get update &&\
     apt-get upgrade -y &&\
     apt-get install sudo build-essential git ninja-build openssl libssl-dev -y
 
-RUN add-apt-repository ppa:ubuntu-toolchain-r/test &&\
+RUN apt-get install software-properties-common -y
+RUN add-apt-repository ppa:ubuntu-toolchain-r/test -y &&\
     apt-get update &&\
     apt-get install gcc-10 g++-10 -y
 
@@ -60,7 +61,7 @@ RUN apt-get install libglu1-mesa-dev mesa-common-dev mesa-utils freeglut3-dev li
 
 # clang & llvm : https://apt.llvm.org
 ARG LLVM_VERSION=11
-RUN apt-get update && apt-get install -y lsb-release software-properties-common && apt-get clean all
+RUN apt-get update && apt-get install -y lsb-release && apt-get clean all
 WORKDIR /opt
 RUN wget https://apt.llvm.org/llvm.sh && chmod +x llvm.sh && ./llvm.sh ${LLVM_VERSION}
 

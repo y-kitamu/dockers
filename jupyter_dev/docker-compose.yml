@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  extension_dev:
+    build:
+      context: ./
+      args:
+        user: ${USER}
+    hostname: extension_dev
+    ports:
+      - "32221:22"
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - /etc/localtime:/etc/localtime
+      - /etc/passwd:/etc/passwd
+      - /etc/shadow:/etc/shadow
+      - /etc/group:/etc/group
+      - ~/work:/home/${USER}/work
+      - ~/.ssh:/home/${USER}/.ssh
+      - ~/.bashrc:/home/${USER}/.bashrc
+    entrypoint: /usr/sbin/sshd -D
+    restart: always
