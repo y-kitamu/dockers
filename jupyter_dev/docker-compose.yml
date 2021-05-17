@@ -9,6 +9,7 @@ services:
     hostname: extension_dev
     ports:
       - "32221:22"
+      - "5555:8888"
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix
       - /etc/localtime:/etc/localtime

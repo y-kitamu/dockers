@@ -21,3 +21,6 @@ RUN apt purge -y nodejs npm
 RUN python3 -m pip install --upgrade pip
 RUN pip install jupyterlab
 RUN pip install cookiecutter
+
+# name resolve for jplm
+RUN echo "nameserver 8.8.8.8" >> /etc/resolv.conf
