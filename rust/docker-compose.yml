@@ -16,7 +16,8 @@ services:
       - /etc/group:/etc/group
       - ${HOME}/work:${HOME}/work
       - ${HOME}/dotfiles:${HOME}/dotfiles
-      - ${HOME}/./bashrc:${HOME}/.bashrc
+      - ${HOME}/.bashrc:${HOME}/.bashrc
+      - ${HOME}/.ssh:${HOME}/.ssh
       - ./config:${HOME}/config
     entrypoint: ${HOME}/config/entrypoint.sh
     restart: always

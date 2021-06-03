@@ -15,6 +15,7 @@ RUN sed -ri 's/UsePAM yes/#UsePAM yes/g' /etc/ssh/sshd_config
 
 
 RUN apt-get update && apt-get upgrade -y && apt-get install git curl gcc -y
+
 USER ${user}
 SHELL ["/bin/bash", "-c"]
 RUN cd /home/${user} &&\
@@ -24,11 +25,13 @@ RUN cd /home/${user} &&\
     rm -rf ./rust.sh &&\
     chmod +x /home/${user}/.cargo/env && source /home/${user}/.cargo/env \
     rustup update
-ENV PATH $PATH:/home/${user}/.cargo/bin
+ENV PATH /home/${user}/.cargo/bin:$PATH
 
 # lsp
-USER root
-RUN curl -L https://github.com/rust-analyzer/rust-analyzer/releases/latest/download/rust-analyzer-linux -o /usr/local/bin/rust-analyzer &&\
-    chmod +x /usr/local/bin/rust-analyzer
+RUN mkdir /home/${user}/opt
+WORKDIR /home/${user}/opt
+RUN git clone https://github.com/rust-analyzer/rust-analyzer.git &&\
+    cd /home/${user}/opt/rust-analyzer && \
+    rustup update && cargo xtask install --server
 
 USER root
