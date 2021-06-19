@@ -7,6 +7,11 @@ services:
       context: .
       args:
         user: ${USER}
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: ["gpu"]
     ports:
       - "33333:22" # for ssh
       - "5000:5000" # for many objectives
@@ -18,6 +23,10 @@ services:
       - ${HOME}/dotfiles:${HOME}/dotfiles
       - ${HOME}/.bashrc:${HOME}/.bashrc
       - ${HOME}/.ssh:${HOME}/.ssh
+      - ./.jupyter:${HOME}/.jupyter
       - ./config:${HOME}/config
+    environment:
+      USER_NAME: ${USER}
+      LD_LIBRARY_PATH: /usr/local/cuda/lib64
     entrypoint: ${HOME}/config/entrypoint.sh
     restart: always
