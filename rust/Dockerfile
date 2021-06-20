@@ -1,19 +1,25 @@
-FROM ubuntu:latest
+FROM tensorflow/tensorflow:latest-devel-gpu
 
 MAINTAINER Y.Kitamu <ymyk6602@gmail.com>
+
+ENV DEBIAN_FRONTEND=noninteractive
 
 # add user
 ARG user
 RUN useradd -ms /bin/bash ${user}
 RUN usermod -aG sudo ${user}
 
+# apt
+RUN apt-get update && apt-get upgrade -y &&\
+    apt-get install git curl gcc libssl1.0-dev nodejs-dev npm node-gyp sudo cmake build-essential openssh-server -y
+# npm
+RUN npm install n -g && n stable
+RUN apt purge -y nodejs npm
+
 # ssh (https://docs.docker.com/engine/examples/running_ssh_service/)
-RUN apt-get update && apt-get upgrade -y && apt-get install openssh-server -y
 RUN mkdir /var/run/sshd
 RUN sed -ri 's/^#?PermitRootLogin\s+.*/PermitRootLogin yes/' /etc/ssh/sshd_config
 RUN sed -ri 's/UsePAM yes/#UsePAM yes/g' /etc/ssh/sshd_config
-
-RUN apt-get update && apt-get upgrade -y && apt-get install git curl gcc -y
 
 # rust
 USER ${user}
@@ -23,7 +29,8 @@ RUN cd /home/${user} &&\
     chmod +x ./rust.sh &&\
     ./rust.sh -y &&\
     rm -rf ./rust.sh &&\
-    chmod +x /home/${user}/.cargo/env && source /home/${user}/.cargo/env \
+    chmod +x /home/${user}/.cargo/env &&\
+    source /home/${user}/.cargo/env &&\
     rustup update
 ENV PATH /home/${user}/.cargo/bin:$PATH
 
@@ -34,25 +41,18 @@ RUN git clone https://github.com/rust-analyzer/rust-analyzer.git &&\
     cd /home/${user}/opt/rust-analyzer && \
     rustup update && cargo xtask install --server
 
-# jupyter
+# jupyter lab
 USER root
-RUN apt-get update && apt-get upgrade -y &&\
-    apt-get install sudo jupyter-notebook cmake build-essential -y
+RUN pip install jupyterlab
+
+# rust jupyter
 USER ${user}
 RUN rustup component add rust-src
 RUN cargo install evcxr_jupyter
 RUN evcxr_jupyter --install
 
-# jupyter lab
-USER root
-RUN apt-get update && apt-get upgrade -y && apt-get install pip -y
-RUN pip install jupyterlab
-
 # jupyter lab extension
 USER root
-RUN apt-get update && apt-get upgrade -y && apt-get install nodejs npm git -y
-RUN npm install n -g && n stable
-RUN apt purge -y nodejs npm
 # jupyterlab-emacskeys
 WORKDIR /home/${user}/opt
 RUN git clone https://github.com/kpe/jupyterlab-emacskeys.git &&\
@@ -61,6 +61,6 @@ RUN git clone https://github.com/kpe/jupyterlab-emacskeys.git &&\
     npm run build &&\
     jupyter labextension link .
 
-RUN jupyter lab build
-
 USER root
+
+RUN echo "nameserver 8.8.8.8" >> /etc/resolv.conf
