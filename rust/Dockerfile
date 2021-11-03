@@ -21,6 +21,22 @@ RUN mkdir /var/run/sshd
 RUN sed -ri 's/^#?PermitRootLogin\s+.*/PermitRootLogin yes/' /etc/ssh/sshd_config
 RUN sed -ri 's/UsePAM yes/#UsePAM yes/g' /etc/ssh/sshd_config
 
+# python
+USER root
+RUN apt-get update && apt-get install -y python3.8-dev && python3.8 -m pip install --upgrade pip
+RUN apt autoremove -y
+# jupyter lab
+RUN pip install jupyterlab
+
+# lsp
+RUN mkdir /home/${user}/opt
+WORKDIR /home/${user}/opt
+RUN git clone https://github.com/rust-analyzer/rust-analyzer.git &&\
+    cd /home/${user}/opt/rust-analyzer && \
+    rustup update && cargo xtask install --server
+# jupyter lab lsp, pylsp
+RUN pip install jupyterlab-lsp 'python-lsp-server[all]'
+
 # rust
 USER ${user}
 SHELL ["/bin/bash", "-c"]
@@ -34,16 +50,16 @@ RUN cd /home/${user} &&\
     rustup update
 ENV PATH /home/${user}/.cargo/bin:$PATH
 
-# lsp
-RUN mkdir /home/${user}/opt
-WORKDIR /home/${user}/opt
-RUN git clone https://github.com/rust-analyzer/rust-analyzer.git &&\
-    cd /home/${user}/opt/rust-analyzer && \
-    rustup update && cargo xtask install --server
-
-# jupyter lab
-USER root
-RUN pip install jupyterlab
+# install newest cmake
+ARG CMAKE_VER=3.22.0
+WORKDIR /opt/
+RUN wget https://github.com/Kitware/CMake/releases/download/v$CMAKE_VER-rc2/cmake-$CMAKE_VER-rc2.tar.gz\
+    && tar -zxvf cmake-$CMAKE_VER-rc2.tar.gz\
+    && rm cmake-$CMAKE_VER-rc2.tar.gz\
+    && cd cmake-$CMAKE_VER-rc2\
+    && cmake . \
+    && make -j8\
+    && make install
 
 # rust jupyter
 USER ${user}

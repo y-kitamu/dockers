@@ -1,5 +1,6 @@
 {
     "codeCellConfig": {
-        "fontSize": 15
+        "fontSize": 15,
+        "autoClosingBrackets": true,
     }
 }
