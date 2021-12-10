@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  node:
+    hostname: node_dev
+    build: .
+    ports:
+      - "32323:22"
+    volumes:
+      - /etc/passwd:/etc/passwd
+      - /etc/shadow:/etc/shadow
+      - /etc/group:/etc/group
+      - ${HOME}/work:${HOME}/work
+      - ${HOME}/.ssh:${HOME}/.ssh
+      - ${HOME}/.bashrc:${HOME}/.bashrc
+    entrypoint: /usr/sbin/sshd -D
+    restart: always

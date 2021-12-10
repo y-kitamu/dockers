@@ -2,12 +2,13 @@ FROM cpp_engine_base
 
 MAINTAINER y-kitamu ymyk6602@gmail.com
 
+ENV DEBIAN_FRONTEND noninteractive
+
 # docker-compose.yml args
 ARG user
 
 # add user
-RUN useradd -ms /bin/bash ${user}
-RUN usermod -aG sudo ${user}
+RUN useradd -ms /bin/bash ${user} && usermod -aG sudo ${user}
 
 # ssh (https://docs.docker.com/engine/examples/running_ssh_service/)
 RUN apt-get update && apt-get upgrade -y && apt-get install openssh-server -y
@@ -18,7 +19,7 @@ RUN sed -ri 's/UsePAM yes/#UsePAM yes/g' /etc/ssh/sshd_config
 # gcc, g++, build-essential, git
 RUN apt-get update &&\
     apt-get upgrade -y &&\
-    apt-get install sudo build-essential git ninja-build openssl libssl-dev -y
+    apt-get install -y sudo build-essential git ninja-build openssl libssl-dev
 
 RUN apt-get install software-properties-common -y
 RUN add-apt-repository ppa:ubuntu-toolchain-r/test -y &&\
@@ -44,7 +45,11 @@ RUN apt-get update &&\
     apt-get install libgtk-3-0 libgtk-3-dev libavcodec-dev libavformat-dev libswscale-dev -y &&\
     git clone https://github.com/opencv/opencv.git opencv && cd opencv &&\
     mkdir build && cd build &&\
-    cmake -D CMAKE_BUILD_TYPE=Release -D CMAKE_INSTALL_PREFIX=/usr/local .. &&\
+    cmake -D CMAKE_BUILD_TYPE=Release -D CMAKE_INSTALL_PREFIX=/usr/local \
+    -D ENABLE_FAST_MATH=1 \
+    -D CUDA_FAST_MATH=1 \
+    -D WITH_CUBLAS=1 \
+    -D WITH_CUDA=ON .. &&\
     make -j4 && make install
 
 # ceres
@@ -60,7 +65,7 @@ WORKDIR /
 RUN apt-get install libglu1-mesa-dev mesa-common-dev mesa-utils freeglut3-dev libglfw3-dev libglfw3 -y
 
 # clang & llvm : https://apt.llvm.org
-ARG LLVM_VERSION=11
+ARG LLVM_VERSION=12
 RUN apt-get update && apt-get install -y lsb-release && apt-get clean all
 WORKDIR /opt
 RUN wget https://apt.llvm.org/llvm.sh && chmod +x llvm.sh && ./llvm.sh ${LLVM_VERSION}
