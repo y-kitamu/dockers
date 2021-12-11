@@ -12,8 +12,9 @@ RUN useradd -m ${user} &&\
 
 # install nodejs (required by labextension)
 RUN apt-get update -y && apt-get upgrade -y
-RUN curl -sL https://deb.nodesource.com/setup_9.x | bash - 
 RUN apt-get install nodejs npm -y
+# update npm
+RUN npm install n -g && n stable && apt purge -y nodejs npm
 
 RUN /opt/conda/bin/conda install jupyter -y --quiet
 RUN /opt/conda/bin/jupyter serverextension enable --py jupyterlab
@@ -49,4 +50,3 @@ RUN /opt/conda/bin/jupyter labextension install @oriolmirosa/jupyterlab_material
 RUN apt-get update -y && apt-get install sudo -y
 
 USER ${user}
-
