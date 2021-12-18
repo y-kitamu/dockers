@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  octave:
+    hostname: octave_dev
+    build: .
+    ports:
+      - "33323:22"
+    volumes:
+      - /etc/passwd:/etc/passwd
+      - /etc/shadow:/etc/shadow
+      - /etc/group:/etc/group
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket
+      - ${HOME}/work:${HOME}/work
+      - ${HOME}/.ssh:${HOME}/.ssh
+      - ${HOME}/.bashrc:${HOME}/.bashrc
+    entrypoint: /usr/sbin/sshd -D
+    privileged: true
+    restart: always
