@@ -37,7 +37,8 @@ RUN apt-get update && apt-get install -y \
     mesa-utils\
     curl\
     git\
-    python3.9-dev
+    python3.9-dev\
+    python3-pip
 
 # update npm
 RUN npm install n -g && n stable && apt purge -y nodejs npm
