@@ -37,7 +37,8 @@ RUN apt-get update && apt-get install -y \
     mesa-utils\
     curl\
     git\
-    python3.9-dev\
+    python3-dev\
+    python3-venv\
     python3-pip
 
 # update npm
@@ -49,10 +50,16 @@ RUN npm install i -g \
     typescript-language-server\
     typescript\
     javascript-typescript-langserver\
-    vscode-css-languageserver-bin
+    vscode-css-languageserver-bin\
+    pyright
 
 # heroku
 RUN curl https://cli-assets.heroku.com/install-ubuntu.sh | sh
+
+# python settings
+WORKDIR /tmp
+RUN ln -s /usr/bin/python3 /usr/bin/python
+RUN pip install uvicorn fastapi
 
 RUN usermod -aG sudo ${user}
 

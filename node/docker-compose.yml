@@ -12,7 +12,8 @@ services:
               capabilities: [gpu]
     ports:
       - "32323:22"
-      - "3000:3000"
+      - "3000:3000" # for electron gui
+      - "9898:8000" # for fastapi
     volumes:
       - /etc/passwd:/etc/passwd
       - /etc/shadow:/etc/shadow
