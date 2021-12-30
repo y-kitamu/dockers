@@ -1,0 +1,81 @@
+{
+    "shortcuts": [
+       {
+            "command": "documentsearch:start",
+            "keys": [
+                "Accel F"
+            ],
+            "selector": ".jp-mod-searchable",
+            "disabled": true
+        },
+       {
+            "command": "documentsearch:start",
+            "keys": [
+                "Accel S"
+            ],
+            "selector": ".jp-mod-searchable",
+        },
+        {
+            "command": "application:toggle-left-area",
+            "keys": [
+                "Accel B"
+            ],
+            "selector": "body",
+            "disabled": true
+        },
+        {
+            "command": "apputils:print",
+            "keys": [
+                "Accel P"
+            ],
+            "selector": "body",
+            "disabled": true
+        },
+        {
+            "command": "application:activate-next-tab",
+            "keys": [
+                "Ctrl Alt N"
+            ],
+            "selector": "body"
+        },
+        {
+            "command": "application:activate-previous-tab",
+            "keys": [
+                "Ctrl Alt P"
+            ],
+            "selector": "body"
+        },
+        {
+            "command": "settingeditor:open",
+            "keys": [
+                "Accel ,"
+            ],
+            "selector": "body",
+            "disabled": true
+        },       
+         {
+            "command": "docmanager:save",
+            "keys": [
+                "Accel Alt S"
+            ],
+            "selector": "body",
+        }, 
+                {
+            "command": "lsp:jump-to-definition-file_editor",
+            "keys": [
+                "Accel B"
+            ],
+            "selector": ".jp-FileEditor",
+            "disabled": true 
+        },
+        {
+            "command": "lsp:jump-to-definition-notebook",
+            "keys": [
+                "Accel B"
+            ],
+            "selector": ".jp-Notebook .jp-CodeCell",
+            "disabled": true
+        },
+
+   ]
+}

@@ -37,6 +37,7 @@ RUN apt-get update && apt-get install -y \
     mesa-utils\
     curl\
     git\
+    libsqlite3-dev\
     python3-dev\
     python3-venv\
     python3-pip
@@ -61,6 +62,22 @@ WORKDIR /tmp
 RUN ln -s /usr/bin/python3 /usr/bin/python
 RUN pip install uvicorn fastapi
 
+# jupyter lab
+RUN pip install jupyterlab jupyter-lsp jupyterlab-lsp lckr-jupyterlab-variableinspector
+# install typescript jupyter kernel
+RUN npm install -g itypescript && its --install=global
+# jupyterlab-emacskeys
+WORKDIR /opt
+RUN git clone https://github.com/kpe/jupyterlab-emacskeys.git &&\
+    cd jupyterlab-emacskeys &&\
+    npm install &&\
+    npm run build &&\
+    jupyter labextension link .
+RUN jupyter lab build
+
+# Japanese font
+RUN apt-get update && apt-get install fonts-noto -y
+
 RUN usermod -aG sudo ${user}
 
 ARG display
@@ -70,5 +87,7 @@ RUN echo "export DISPLAY=${display}" >> /etc/profile &&\
 
 ENV DISPLAY=${display} \
     DEBIAN_FRONTEND=newt
+
+ADD entrypoint.sh /tmp/
 
 WORKDIR /

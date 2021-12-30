@@ -12,6 +12,7 @@ services:
               capabilities: [gpu]
     ports:
       - "32323:22"
+      - "9899:5000"
       - "3000:3000" # for electron gui
       - "9898:8000" # for fastapi
     volumes:
@@ -23,6 +24,9 @@ services:
       - ${HOME}/work:${HOME}/work
       - ${HOME}/.ssh:${HOME}/.ssh
       - ${HOME}/.bashrc:${HOME}/.bashrc
-    entrypoint: /usr/sbin/sshd -D
+      - ./.jupyter:${HOME}/.jupyter
+    entrypoint: /tmp/entrypoint.sh
+    environment:
+      USER_NAME: ${USER}
     privileged: true
     restart: always
