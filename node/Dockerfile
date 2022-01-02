@@ -50,7 +50,6 @@ RUN npm install i -g \
     vscode-html-languageserver-bin\
     typescript-language-server\
     typescript\
-    javascript-typescript-langserver\
     vscode-css-languageserver-bin\
     pyright
 
@@ -77,6 +76,26 @@ RUN jupyter lab build
 
 # Japanese font
 RUN apt-get update && apt-get install fonts-noto -y
+# ***********************************************
+# install packages for xrdp, and do setting
+# ***********************************************
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y \
+    language-pack-ja-base language-pack-ja fonts-noto-cjk fcitx-mozc \
+    && im-config -n fcitx
+
+# 動作確認用のGUIアプリをインストール
+RUN apt-get update \
+    && apt-get install -y gedit
+
+ENV GTK_IM_MODULE=xim \
+    QT_IM_MODULE=fcitx \
+    XMODIFIERS=@im=fcitx \
+    DefalutIMModule=fcitx
+
+RUN locale-gen ja_JP.UTF-8
+ENV LANG=ja_JP.UTF-8 \
+    LC_ALL=ja_JP.UTF-8
 
 RUN usermod -aG sudo ${user}
 
