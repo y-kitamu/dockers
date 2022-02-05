@@ -38,6 +38,8 @@ RUN apt-get update && apt-get install -y \
     curl\
     git\
     libsqlite3-dev\
+    dpkg\
+    fakeroot\
     python3-dev\
     python3-venv\
     python3-pip
@@ -93,9 +95,9 @@ ENV GTK_IM_MODULE=xim \
     XMODIFIERS=@im=fcitx \
     DefalutIMModule=fcitx
 
-RUN locale-gen ja_JP.UTF-8
-ENV LANG=ja_JP.UTF-8 \
-    LC_ALL=ja_JP.UTF-8
+# RUN locale-gen ja_JP.UTF-8
+# ENV LANG=ja_JP.UTF-8 \
+#     LC_ALL=ja_JP.UTF-8
 
 RUN usermod -aG sudo ${user}
 

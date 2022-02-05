@@ -2,7 +2,7 @@ version: '3'
 
 services:
   node:
-    hostname: node_dev
+    hostname: python_dev
     build: .
     deploy:
       resources:
@@ -11,17 +11,13 @@ services:
             - driver: nvidia
               capabilities: [gpu]
     ports:
-      - "32323:22"
-      - "9899:5000"
-      - "3000:3000" # for electron gui
-      - "9898:8000" # for fastapi
+      - "32222:22" # ssh
+      - "5088:5000" # jupyter lab
     volumes:
       - /etc/passwd:/etc/passwd
       - /etc/shadow:/etc/shadow
       - /etc/group:/etc/group
       - /tmp/.X11-unix:/tmp/.X11-unix
-      - ${HOME}/.Xauthority:${HOME}/.Xauthority
-      - /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket
       - ${HOME}/work:${HOME}/work
       - ${HOME}/.ssh:${HOME}/.ssh
       - ${HOME}/.bashrc:${HOME}/.bashrc
