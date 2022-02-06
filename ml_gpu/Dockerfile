@@ -43,13 +43,16 @@ RUN git clone https://github.com/kpe/jupyterlab-emacskeys.git &&\
 
 RUN jupyter lab build
 
-ADD .style.yapf /home/${user}/
-
-# make sure to install latest tensorflow
-RUN pip3 install --upgrade pip && pip3 install tensorflow-gpu
-
 # install pyright
 RUN npm install -g pyright
+
+# install poetry
+USER ${user}
+RUN curl -sSL https://install.python-poetry.org | python3 -
+
+USER ${root}
+
+ADD .style.yapf /home/${user}/
 
 ARG display
 RUN echo "export DISPLAY=${display}" >> /etc/profile
