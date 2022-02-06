@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-  node:
+  python:
     hostname: python_dev
     build: .
     deploy:

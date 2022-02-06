@@ -29,10 +29,7 @@ RUN pip3 install\
 RUN jupyter serverextension enable --py jupyterlab --sys-prefix
 # jupyterlab lsp
 RUN jupyter labextension install\
-    @krassowski/jupyterlab-lsp\
-    @lckr/jupyterlab_variableinspector\
-    jupyterlab-nvdashboard\
-    jupyterlab_tensorboard
+    @krassowski/jupyterlab-lsp
 # jupyterlab-emacskeys
 WORKDIR /opt
 RUN git clone https://github.com/kpe/jupyterlab-emacskeys.git &&\
@@ -47,6 +44,7 @@ RUN jupyter lab build
 RUN npm install -g pyright
 
 # install poetry
+RUN apt-get install python3-venv -y
 USER ${user}
 RUN curl -sSL https://install.python-poetry.org | python3 -
 
