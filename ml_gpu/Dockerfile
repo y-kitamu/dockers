@@ -47,6 +47,7 @@ RUN npm install -g pyright
 RUN apt-get install python3-venv -y
 USER ${user}
 RUN curl -sSL https://install.python-poetry.org | python3 -
+RUN /home/${user}/.local/bin/poetry config virtualenvs.in-project true
 
 USER ${root}
 
