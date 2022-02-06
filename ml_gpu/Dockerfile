@@ -51,7 +51,8 @@ RUN /home/${user}/.local/bin/poetry config virtualenvs.in-project true
 
 USER ${root}
 
-ADD .style.yapf /home/${user}/
+# install black
+RUN pip3 install black
 
 ARG display
 RUN echo "export DISPLAY=${display}" >> /etc/profile
