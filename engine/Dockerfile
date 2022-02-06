@@ -47,9 +47,7 @@ RUN apt-get update &&\
     mkdir build && cd build &&\
     cmake -D CMAKE_BUILD_TYPE=Release -D CMAKE_INSTALL_PREFIX=/usr/local \
     -D ENABLE_FAST_MATH=1 \
-    -D CUDA_FAST_MATH=1 \
-    -D WITH_CUBLAS=1 \
-    -D WITH_CUDA=ON .. &&\
+    .. &&\
     make -j4 && make install
 
 # ceres
@@ -124,10 +122,15 @@ RUN apt-get update \
 # c++ (ccls)
 WORKDIR /opt
 RUN apt-get install -y libllvm-${LLVM_VERSION}-ocaml-dev llvm-${LLVM_VERSION}-doc llvm-${LLVM_VERSION}-examples
-RUN apt-get install -y  clang-tools-${LLVM_VERSION} clang-${LLVM_VERSION}-doc \
-    libclang-${LLVM_VERSION}-dev clang-format-${LLVM_VERSION} python3-clang-${LLVM_VERSION}
+RUN apt-get install -y  \
+    clang-tools-${LLVM_VERSION}\
+    clang-${LLVM_VERSION}-doc \
+    libclang-${LLVM_VERSION}-dev\
+    clang-format-${LLVM_VERSION}\
+    python3-clang-${LLVM_VERSION}\
+    libstdc++-11-dev
 RUN git clone --depth=1 --recursive https://github.com/MaskRay/ccls && cd ccls &&\
-    cmake -H. -BRelease -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=clang++ &&\
+    cmake -H. -BRelease -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_PREFIX_PATH=/usr/lib/llvm-13/ &&\
     cmake --build Release && ln -s /opt/ccls/Release/ccls /usr/local/bin/
 # python (python language server)
 RUN curl -kL https://bootstrap.pypa.io/get-pip.py | python3
