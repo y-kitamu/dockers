@@ -11,7 +11,7 @@ RUN usermod -aG sudo ${user}
 
 # apt
 RUN apt-get update && apt-get upgrade -y &&\
-    apt-get install git curl gcc libssl1.0-dev nodejs-dev npm node-gyp sudo cmake build-essential openssh-server -y
+    apt-get install git curl gcc libssl-dev nodejs-dev npm node-gyp sudo cmake build-essential openssh-server -y
 # npm
 RUN npm install n -g && n stable
 RUN apt purge -y nodejs npm

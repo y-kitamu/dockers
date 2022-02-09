@@ -36,7 +36,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker image
-      run: cd jupyter-dev && docker-compose build
+      run: cd jupyter_dev && docker-compose build
   build-lsp:
     runs-on: ubuntu-latest
     steps:

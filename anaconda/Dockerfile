@@ -21,15 +21,9 @@ RUN /opt/conda/bin/jupyter serverextension enable --py jupyterlab
 
 # install other python libraries
 RUN /opt/conda/bin/conda install -c conda-forge pyprind -y
-RUN /opt/conda/bin/conda install wtforms -y # for flask
-RUN /opt/conda/bin/conda install Theano -y
 RUN /opt/conda/bin/conda install statsmodels -y  # statistical model
 
-RUN /opt/conda/bin/pip install cupy
-RUN /opt/conda/bin/pip install chainer
-
 RUN /opt/conda/bin/pip install opencv-python
-RUN /opt/conda/bin/pip install chainercv
 
 RUN /opt/conda/bin/pip install tensorflow
 
@@ -43,8 +37,8 @@ WORKDIR /
 RUN /opt/conda/bin/conda update jupyterlab -y
 
 # install extensions
-RUN /opt/conda/bin/jupyter labextension install jupyterlab-emacskeys
-RUN /opt/conda/bin/jupyter labextension install @oriolmirosa/jupyterlab_materialdarker
+# RUN /opt/conda/bin/jupyter labextension install jupyterlab-emacskeys
+# RUN /opt/conda/bin/jupyter labextension install @oriolmirosa/jupyterlab_materialdarker
 
 ##### Other Settings #####
 RUN apt-get update -y && apt-get install sudo -y

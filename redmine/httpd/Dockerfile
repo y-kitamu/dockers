@@ -25,7 +25,7 @@ RUN apt-get update && apt-get install -y \
 
 RUN apt-get update && apt-get upgrade -y
 
-RUN gem install bundler --no-rdoc --no-ri && gem install nokogiri && gem install pg
+RUN gem install bundler -N && gem install nokogiri && gem install pg
 RUN svn co http://svn.redmine.org/redmine/branches/4.0-stable /var/lib/redmine
 
 COPY config/database.yml /var/lib/redmine/config/
@@ -35,11 +35,11 @@ RUN cd /var/lib/redmine && \
     bundle install --without development test --path vendor/bundle &&\
     bundle exec rake generate_secret_token
 
-RUN gem install passenger -v 6.0.2 --no-rdoc --no-ri &&\
+RUN gem install passenger -v 6.0.2 -N &&\
     passenger-install-apache2-module --auto --languages ruby
 
 # 上のインストールで openssl 関係のファイルが上書きされてしまい（？）エラーがでたので、修正
-RUN sed -i 's/\(CipherString = DEFAULT@SECLEVEL=\)2/\11/' /etc/ssl/openssl.cnf 
+RUN sed -i 's/\(CipherString = DEFAULT@SECLEVEL=\)2/\11/' /etc/ssl/openssl.cnf
 
 RUN sed -i 's/^DocumentRoot ".*htdocs"/DocumentRoot "\/var\/lib\/redmine\/public"/' conf/httpd.conf
 RUN echo "Include conf/redmine.conf" >> conf/httpd.conf &&\

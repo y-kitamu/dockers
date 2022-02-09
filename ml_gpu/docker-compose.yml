@@ -19,6 +19,7 @@ services:
       - /etc/group:/etc/group
       - /tmp/.X11-unix:/tmp/.X11-unix
       - ${HOME}/work:${HOME}/work
+      - ${HOME}/dataset:${HOME}/dataset
       - ${HOME}/.ssh:${HOME}/.ssh
       - ${HOME}/.bashrc:${HOME}/.bashrc
       - ./.jupyter:${HOME}/.jupyter

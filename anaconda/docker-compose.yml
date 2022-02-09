@@ -1,6 +1,5 @@
 version: '3'
 
-# TODO : volume (work) の所有者を root から変更する
 services:
   anaconda:
     build:
@@ -16,6 +15,6 @@ services:
     volumes:
       - ./work:/home/${user}/work
       - ./config:/home/${user}/config
-      - ./work/.jupyter:/home/${user}/.jupyter # jupyter の設定ファイル
+      - ./work/.jupyter:/home/${user}/.jupyter
     entrypoint: /home/${user}/config/entrypoint.sh
     command: ${user}
