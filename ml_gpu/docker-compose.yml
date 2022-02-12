@@ -28,3 +28,15 @@ services:
       USER_NAME: ${USER}
     privileged: true
     restart: always
+
+  tensorboard:
+    hostname: tensorboard
+    build:
+      context: .
+      dockerfile: Dockerfile.tensorboard
+    ports:
+      - "6006:6006"
+    volumes:
+      - ${HOME}/work:${HOME}/work
+    entrypoint: tensorboard --logdir=${HOME}/work/Kaggle/logs --bind_all
+    restart: always

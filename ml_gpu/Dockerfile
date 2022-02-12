@@ -52,7 +52,7 @@ RUN /home/${user}/.local/bin/poetry config virtualenvs.in-project true
 USER ${root}
 
 # install black
-RUN pip3 install black
+RUN pip3 install black jedi-language-server
 
 ARG display
 RUN echo "export DISPLAY=${display}" >> /etc/profile
